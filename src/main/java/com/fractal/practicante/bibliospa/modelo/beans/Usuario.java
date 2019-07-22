@@ -1,39 +1,46 @@
 package com.fractal.practicante.bibliospa.modelo.beans;
+
+/**
+ * Clase que contiene todos los datos del usuario
+ * 
+ * @author Rubén Gustavo García Málaga
+ */
 public class Usuario {
+    /** id del usuario */     
     private int id;
+    
+    /** usuario */
     private String usuario;
+    
+    /** contraseña del usuario */
     private String contrasenia;
+    
+    /** atributo que indica si el usuario es o no administrador */
     private char admin;
-
-    public int getId() {
-        return id;
+    
+    /**
+     * Constructor vacío
+     */
+    public Usuario() {
     }
     
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getContrasenia() {
-        return contrasenia;
-    }
-
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
-    }
-    
-    public char getAdmin(){
-        return admin;
-    }
-    
+    /**
+     * 
+     * @param usuario usuario
+     * @param contrasenia contraseña del usuario
+     */
     public Usuario(String usuario, String contrasenia) {
         this.usuario = usuario;
         this.contrasenia = contrasenia;
     }
     
+    /**
+     * 
+     * @param id id del usurio
+     * @param usuario usuario
+     * @param contrasenia contraseña del usuario
+     * @param admin rol de admin
+     */
     public Usuario(int id, String usuario, String contrasenia, char admin) {
         this.id = id;
         this.usuario = usuario;
@@ -41,6 +48,67 @@ public class Usuario {
         this.admin = admin;
     }
     
-    public Usuario() {
+    /**
+     * Recupera el 
+     * @return recupera el id del usuario
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Cambia el id
+     * @param id id del usuario
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * Recupera el usuario
+     * @return recupera el usuario
+     */
+    public String getUsuario() {
+        return usuario;
+    }
+
+    /**
+     * Cambia el usuario
+     * @param usuario usuario
+     */
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    /**
+     * Recupera la contraseña del usuario
+     * @return Recupera la contraseña del usuario
+     */
+    public String getContrasenia() {
+        return contrasenia;
+    }
+
+    /**
+     * Cambia la contraseña del usuario
+     * @param contrasenia contraseña del usuario
+     */
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
+    
+    /**
+     * recupera el estado del administrador
+     * @return recupera el estado del administrador del usuario
+     */
+    public char getAdmin() {
+        return admin;
+    }
+
+    /**
+     * Cambia el estado del admin
+     * @param admin estado del admin
+     */
+    public void setAdmin(char admin) {
+        this.admin = admin;
     }
 }
