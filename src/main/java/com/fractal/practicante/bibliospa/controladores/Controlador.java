@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fractal.practicante.bibliospa;
+package com.fractal.practicante.bibliospa.controladores;
 
 import java.io.BufferedReader;
 import java.io.IOException;
