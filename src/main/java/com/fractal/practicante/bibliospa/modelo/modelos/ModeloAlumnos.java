@@ -18,8 +18,8 @@ public class ModeloAlumnos{
         PreparedStatement consulta;
         consulta = conexion.prepareStatement("CALL USP_ALUMNOS_C (?, ?, ?, ?, ?, ?);");
         consulta.setString(1, alumno.getNombre());
-        consulta.setString(2, alumno.getpApellido());
-        consulta.setString(3, alumno.getsApellido());
+        consulta.setString(2, alumno.getApellidoPaterno());
+        consulta.setString(3, alumno.getApellidoMaterno());
         consulta.setString(4, alumno.getTelefono());
         consulta.setString(5, alumno.getDni());
         consulta.setInt(6, alumno.getIdUsuario());
