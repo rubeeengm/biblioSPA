@@ -16,7 +16,7 @@ public class ModeloUsuarios {
     public void insertar(Connection conexion, Usuario usuario) throws SQLException {
         PreparedStatement consulta;
         consulta = conexion.prepareStatement("CALL USP_USUARIOS_C (?, ?);");
-        consulta.setString(1, usuario.getUsuario());
+        consulta.setString(1, usuario.getNombreUsuario());
         consulta.setString(2, usuario.getContrasenia());
         consulta.executeUpdate();
     }

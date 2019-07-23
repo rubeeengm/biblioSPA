@@ -10,7 +10,7 @@ public class Usuario {
     private int id;
     
     /** usuario */
-    private String usuario;
+    private String nombreUsuario;
     
     /** contraseña del usuario */
     private String contrasenia;
@@ -30,7 +30,7 @@ public class Usuario {
      * @param contrasenia contraseña del usuario
      */
     public Usuario(String usuario, String contrasenia) {
-        this.usuario = usuario;
+        this.nombreUsuario = usuario;
         this.contrasenia = contrasenia;
     }
     
@@ -43,7 +43,7 @@ public class Usuario {
      */
     public Usuario(int id, String usuario, String contrasenia, char admin) {
         this.id = id;
-        this.usuario = usuario;
+        this.nombreUsuario = usuario;
         this.contrasenia = contrasenia;
         this.admin = admin;
     }
@@ -68,16 +68,16 @@ public class Usuario {
      * Recupera el usuario
      * @return recupera el usuario
      */
-    public String getUsuario() {
-        return usuario;
+    public String getNombreUsuario() {
+        return nombreUsuario;
     }
 
     /**
      * Cambia el usuario
-     * @param usuario usuario
+     * @param nombreUsuario usuario
      */
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
     /**

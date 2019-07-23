@@ -12,9 +12,9 @@ public class ValidacionLibroAlumno {
      * Verificamos que el idUsuario y idLibro sean positivos
      * 
      * @param objeto LibroDeAlumno al que se le evaluan los atributos
-     * @return true o false dependiendo de si sus datos son correctos
+     * @return devuelve true si sus datos son correctos
      */
-    public boolean validarLibroAlumnoId(LibroDeAlumno objeto) {
+    public boolean validarLibroAlumno(LibroDeAlumno objeto) {
         int idUsuario = objeto.getId();
         int idLibro = objeto.getIdLibro();
         
