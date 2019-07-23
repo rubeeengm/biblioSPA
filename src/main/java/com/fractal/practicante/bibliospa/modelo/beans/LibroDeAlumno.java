@@ -13,8 +13,8 @@ public class LibroDeAlumno {
      */
     private int id;
     
-    /** Atributo idUsuario: entero que representa al usuario dueño del libro */
-    private int idUsuario;
+    /** Atributo idAlumno: entero que representa al usuario dueño del libro */
+    private int idAlumno;
     
     /** Atributo idLibro: entero que representa al libro del dueño */
     private int idLibro;
@@ -27,24 +27,24 @@ public class LibroDeAlumno {
     
     /**
      * Constructor de LibroDeAlumno que usa los atributos idUsuario e idLibro
-     * @param idUsuario     ID del usuario
+     * @param idAlumno     ID del Alumno
      * @param idLibro       ID del libro
      */
-    public LibroDeAlumno(int idUsuario, int idLibro) {
-        this.idUsuario = idUsuario;
+    public LibroDeAlumno(int idAlumno, int idLibro) {
+        this.idAlumno = idAlumno;
         this.idLibro = idLibro;
     }
     
     /**
-     * Constructor de LibroDeAlumno que usa los atributos id, idUsuario 
+     * Constructor de LibroDeAlumno que usa los atributos id, idAlumno 
      * e idLibro
      * @param id            ID de la vinculación
-     * @param idUsuario     ID del usuario
+     * @param idAlumno     ID del alumno
      * @param idLibro       ID del libro
      */
-    public LibroDeAlumno(int id, int idUsuario, int idLibro) {
+    public LibroDeAlumno(int id, int idAlumno, int idLibro) {
         this.id = id;
-        this.idUsuario = idUsuario;
+        this.idAlumno = idAlumno;
         this.idLibro = idLibro;
     }    
 
@@ -60,8 +60,8 @@ public class LibroDeAlumno {
      * Metodo obtener del ID del usuario
      * @return ID del usuario
      */
-    public int getIdUsuario() {
-        return idUsuario;
+    public int getIdAlumno() {
+        return idAlumno;
     }
 
     /**
