@@ -21,10 +21,8 @@ public class Conexion {
 
     /**
      * Método que permite crear un objeto para interactuar con la base de datos
-     * 
-     * @return regresa el objeto que permite la conexion con la base de datos
      */
-    public Connection conectar() {
+    public void conectar() {
         if (conexion == null) {
             try {
                 //Driver de base de datos que se desea cargar
@@ -32,8 +30,8 @@ public class Conexion {
                 conexion = DriverManager.getConnection(
                     "jdbc:mysql://127.0.0.1:3306/PRESTAMO_LIBROS?"
                     + "serverTimezone=UTC",
-                    "ruben", //usuario del servidor
-                    "hola" //contraseña del servidor
+                    "pruebas", //usuario del servidor
+                    "password" //contraseña del servidor
                 );
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(
@@ -45,8 +43,6 @@ public class Conexion {
                 );
             }
         }
-        
-        return conexion;
     }
     
     /**

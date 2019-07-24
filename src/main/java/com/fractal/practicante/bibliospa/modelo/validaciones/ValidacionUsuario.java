@@ -27,7 +27,7 @@ public class ValidacionUsuario extends Validacion<Usuario>{
      */
     @Override
     public boolean validarNulos(Usuario usuario) {
-        if(usuario.getNombreUsuario() == null || usuario.getContrasenia() == null){
+        if(usuario.getNombreUsuario().equals("") || usuario.getContrasenia().equals("")){
             System.out.println("Datos nulos");
             return false;
         } else {
