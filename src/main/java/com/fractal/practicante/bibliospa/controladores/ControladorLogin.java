@@ -72,7 +72,7 @@ public class ControladorLogin extends HttpServlet {
                         } else if(objetoUsuario.getAdmin() == '1') {
                             mensajeLogin = "LA";
                         } else {
-                            mensajeLogin = "LE";
+                            mensajeLogin = "LC";
                         }
                     } catch (SQLException ex) {
                         Logger.getLogger(ControladorLogin.class.getName()).log(Level.SEVERE, null, ex);
