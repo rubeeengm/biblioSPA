@@ -30,10 +30,7 @@ public class ValidacionLibro extends Validacion<Libro> {
      * Analiza que el ISBN sea correcto
      */
     private final String REGEX_ISBN
-        = "^((?:-1[03])?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})"
-        + "[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})"
-        + "[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]"
-        + "+[- ]?[0-9]+[- ]?[0-9X]$";
+        = "^[1-9]\\d{12}$";
 
     /**
      * Metodo que verifica si los atributos de un libro son nulos
@@ -52,7 +49,7 @@ public class ValidacionLibro extends Validacion<Libro> {
             System.out.println("Número de páginas inválido");
 
             return false;
-        } else if (titulo == null || autor == null || isbn == null) {
+        } else if (titulo.equals("") || autor.equals("") || isbn.equals("")) {
             System.out.println("Valor nulo");
 
             return false;

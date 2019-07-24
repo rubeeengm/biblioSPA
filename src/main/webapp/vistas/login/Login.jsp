@@ -23,6 +23,6 @@
     </div>
 
     <div class="form-group">
-        <button id="buttonRegistrar" type="submit" class="btn btn-primary">Registrate</button>
+        <button id="buttonRegistrar" class="btn btn-warning">Registrate</button>
     </div>
 </form>
