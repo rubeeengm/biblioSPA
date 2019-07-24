@@ -6,10 +6,14 @@
 package com.fractal.practicante.bibliospa.controladores;
 
 import com.fractal.practicante.bibliospa.modelo.beans.Usuario;
+import com.fractal.practicante.bibliospa.modelo.conexion.Conexion;
 import com.fractal.practicante.bibliospa.modelo.modelos.ModeloUsuarios;
 import com.fractal.practicante.bibliospa.modelo.validaciones.ValidacionUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,6 +43,9 @@ public class ControladorLogin extends HttpServlet {
         
         String accion = request.getParameter("ACCION");
         RequestDispatcher  requestDispatcher = null;
+        Conexion conexion = new Conexion();
+        conexion.conectar();
+        String mensajeLogin = "";
         
         switch(accion) {
             case "vistaRegistrar":
@@ -56,11 +63,23 @@ public class ControladorLogin extends HttpServlet {
                 ValidacionUsuario vu = new ValidacionUsuario();
                 ModeloUsuarios mu = new ModeloUsuarios();
                 
-                if (vu.validacionTotal(objetoUsuario)) {
-                    //objetoUsuario = mu.verificarLogin(conexion, objetoUsuario);
+                if (vu.validarNulos(objetoUsuario)) {
+                    try {
+                        objetoUsuario = mu.verificarLogin(conexion.getConexion(), objetoUsuario);
+                        conexion.desconectar();
+                        if(objetoUsuario.getId() == 0) {
+                            mensajeLogin = "Lmal";
+                        } else if(objetoUsuario.getAdmin() == '1') {
+                            mensajeLogin = "Ladmin";
+                        } else {
+                            mensajeLogin = "Lbien";
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(ControladorLogin.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    mensajeLogin = "Campos vacíos";
                 }
-                
-                
             break;
             
             default:
@@ -69,7 +88,11 @@ public class ControladorLogin extends HttpServlet {
         }
         
         try (PrintWriter out = response.getWriter()) {
-            requestDispatcher.forward(request, response);
+            if(requestDispatcher != null){
+                requestDispatcher.forward(request, response);
+            }
+            
+            out.print(mensajeLogin);
         }
     }
 
