@@ -5,15 +5,9 @@
  */
 package com.fractal.practicante.bibliospa.controladores;
 
-import com.fractal.practicante.bibliospa.modelo.beans.Usuario;
 import com.fractal.practicante.bibliospa.modelo.conexion.Conexion;
-import com.fractal.practicante.bibliospa.modelo.modelos.ModeloUsuarios;
-import com.fractal.practicante.bibliospa.modelo.validaciones.ValidacionUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author user
  */
-@WebServlet(name = "ControladorLogin", urlPatterns = {"/ControladorLogin"})
-public class ControladorLogin extends HttpServlet {
+@WebServlet(name = "ControladorAdmin", urlPatterns = {"/ControladorAdmin"})
+public class ControladorAdmin extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and
@@ -40,50 +34,16 @@ public class ControladorLogin extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
         String accion = request.getParameter("ACCION");
         RequestDispatcher  requestDispatcher = null;
         Conexion conexion = new Conexion();
         conexion.conectar();
-        String mensajeLogin = "";
+        String mensajeAdmin = "";
         
-        switch(accion) {
-            case "vistaRegistrar":
-                requestDispatcher = getServletContext().getRequestDispatcher(
-                    "/vistas/formularios/RegistroAlumno.jsp"
-                );
+        switch(accion){
+            case "":
             break;
-            
-            case "login":
-                String usuario = request.getParameter("usuario");
-                String contrasenia = request.getParameter("contrasenia");
-                
-                Usuario objetoUsuario = new Usuario(usuario, contrasenia);
-                
-                ValidacionUsuario vu = new ValidacionUsuario();
-                ModeloUsuarios mu = new ModeloUsuarios();
-                
-                if (vu.validarNulos(objetoUsuario)) {
-                    try {
-                        objetoUsuario = mu.verificarLogin(conexion.getConexion(), objetoUsuario);
-                        conexion.desconectar();
-                        if(objetoUsuario.getId() == 0) {
-                            mensajeLogin = "LI";
-                        } else if(objetoUsuario.getAdmin() == '1') {
-                            mensajeLogin = "LA";
-                        } else {
-                            mensajeLogin = "LC";
-                        }
-                    } catch (SQLException ex) {
-                        Logger.getLogger(ControladorLogin.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } else {
-                    mensajeLogin = "Campos vacíos";
-                }
-            break;
-            
             default:
-                System.out.println("Error de ruta");
             break;
         }
         
@@ -92,7 +52,7 @@ public class ControladorLogin extends HttpServlet {
                 requestDispatcher.forward(request, response);
             }
             
-            out.print(mensajeLogin);
+            out.print(mensajeAdmin);
         }
     }
 
