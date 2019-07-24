@@ -12,11 +12,11 @@ var Login = {
                 }
             }).done(function () {
                 switch (arguments[0]) {
-                    case "LC":
+                    case "Lbien":
                         alert("Entraste");
                         break;
 
-                    case "LI":
+                    case "Lmal":
                         alert("Usuario o contraseña incorrectos");
                         break;
                 }
