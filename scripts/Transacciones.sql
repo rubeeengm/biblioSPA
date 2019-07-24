@@ -2,21 +2,22 @@
 #Se hizo un procedimiento que dentro lleva una transacción debido a que el registro
 #de alumnos y usuarios se realizan en conjunto, primero se insertan los datos en la
 #tabla Usuarios y luego en la tabla Alumnos, usando los datos que se recibieron como argumentos.
+DROP PROCEDURE IF EXISTS `USP_ALUMNOSUSUARIOS_C`;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_ALUMNOSUSUARIOS_C`(
-    IN `IN_NOMBRE` VARCHAR(45),
-    IN `IN_PAPELLIDO` VARCHAR(45),
-    IN `IN_SAPELLIDO` VARCHAR(45),
-    IN `IN_TELEFONO` VARCHAR(13), 
-    IN `IN_DNI` CHAR(9), 
-    IN `IN_USUARIO` VARCHAR(20),
-    IN `IN_CONTRASENIA` CHAR(32)
+CREATE PROCEDURE `USP_ALUMNOSUSUARIOS_C`(
+    IN `PNOMBRE` VARCHAR(45),
+    IN `PPAPELLIDO` VARCHAR(45),
+    IN `PSAPELLIDO` VARCHAR(45),
+    IN `PTELEFONO` VARCHAR(13), 
+    IN `PDNI` CHAR(9), 
+    IN `PUSUARIO` VARCHAR(20),
+    IN `PCONTRASENIA` CHAR(32)
 )
 BEGIN
     START TRANSACTION;
         START TRANSACTION;
             INSERT INTO USUARIOS (USUARIO, CONTRASENIA) 
-            values(IN_USUARIO, MD5(IN_CONTRASENIA));
+            values(PUSUARIO, MD5(PCONTRASENIA));
         COMMIT;
         INSERT INTO ALUMNOS (
             NOMBRE, 
@@ -27,15 +28,15 @@ BEGIN
             IDUSUARIO
         ) 
         values(
-            IN_NOMBRE, 
-            IN_PAPELLIDO, 
-            IN_SAPELLIDO, 
-            IN_TELEFONO, 
-            IN_DNI, 
+            PNOMBRE, 
+            PPAPELLIDO, 
+            PSAPELLIDO, 
+            PTELEFONO, 
+            PDNI, 
             (
                 SELECT ID
                 FROM USUARIOS 
-                WHERE USUARIO = IN_USUARIO
+                WHERE USUARIO = PUSUARIO
             )
         );
     COMMIT;
@@ -46,18 +47,19 @@ END $$
 #estado del libro cuyo id es igual al id que se recibió como argumento en la tabla
 #de libros a 0, de manera que se registre ocupado y se crée el vínculo entre el alumno
 #y el libro.
+DROP PROCEDURE IF EXISTS `USP_LIBROSDEALUMNO_C`;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_LIBROSDEALUMNO_C`(
-    IN `IN_IDALUMNO` INT(11),
-    IN `IN_IDLIBRO` INT(11)
+CREATE PROCEDURE `USP_LIBROSDEALUMNO_C`(
+    IN `PIDALUMNO` INT(11),
+    IN `PIDLIBRO` INT(11)
 )
 BEGIN
     START TRANSACTION;
         START TRANSACTION;
             INSERT INTO LIBROSDEALUMNO (IDALUMNO, IDLIBRO)
-            values(IN_IDALUMNO, IN_IDLIBRO);
+            values(PIDALUMNO, PIDLIBRO);
         COMMIT;
-        UPDATE LIBROS L SET L.ESTADO = '0' WHERE L.ID = IN_IDLIBRO;
+        UPDATE LIBROS L SET L.ESTADO = '0' WHERE L.ID = PIDLIBRO;
     COMMIT;
 END $$
 
@@ -66,15 +68,16 @@ END $$
 #estado del libro cuyo id es igual al id que se recibió como argumento en la tabla
 #de libros a 1, de manera que se registre libre y se elimine el vínculo entre el alumno
 #y el libro.
+DROP PROCEDURE IF EXISTS `USP_LIBROSDEALUMNO_D`;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_LIBROSDEALUMNO_D`(
-    IN `IN_IDLIBRO` INT(11)
+CREATE PROCEDURE `USP_LIBROSDEALUMNO_D`(
+    IN `PIDLIBRO` INT(11)
 )
 BEGIN
     START TRANSACTION;
         START TRANSACTION;
-            DELETE FROM LIBROSDEALUMNO WHERE IDLIBRO = IN_IDLIBRO;
+            DELETE FROM LIBROSDEALUMNO WHERE IDLIBRO = PIDLIBRO;
         COMMIT;
-        UPDATE LIBROS L SET L.ESTADO = '1' WHERE L.ID = IN_IDLIBRO;
+        UPDATE LIBROS L SET L.ESTADO = '1' WHERE L.ID = PIDLIBRO;
     COMMIT;
 END$$
