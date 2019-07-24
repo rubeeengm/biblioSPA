@@ -40,7 +40,7 @@
 
     <div class="form-group">
         <label for="usuario">Nombre de Usuario</label>
-        <input type="text" class="form-control" id="usuario" 
+        <input type="text" class="form-control" id="nombreUsuario" 
                 name="usuario" placeholder="e.j. TheBoss" 
                 required pattern="^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$">
     </div>
