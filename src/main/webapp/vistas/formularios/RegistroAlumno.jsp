@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <h1>Registro de Alumno</h1>
 <form class="form-group">    
     <div class="form-group">
@@ -9,15 +10,15 @@
     </div>
 
     <div class="form-group">
-        <label for="pApellido">Primer apellido</label>
-        <input type="text" class="form-control" id="pApellido" 
+        <label for="pApellido">Apellido Paterno</label>
+        <input type="text" class="form-control" id="apellidoPaterno" 
                 name="pApellido" placeholder="Escribe tu primer apellido" 
                 required pattern="^([A-ZÁÉÍÓÚ][a-zñáéíóú]+)+$">
     </div>
 
     <div class="form-group">
-        <label for="sApellido">Segundo apellido</label>
-        <input type="text" class="form-control" id="sApellido" 
+        <label for="sApellido">Apellido Materno</label>
+        <input type="text" class="form-control" id="apellidoMaterno" 
                 name="sApellido" placeholder="Escribe tu segundo apellido" 
                 required pattern="^([A-ZÁÉÍÓÚ][a-zñáéíóú]+)+$">
     </div>
@@ -45,7 +46,7 @@
     </div>
 
     <div class="form-group">
-        <label for="contraseña">Contraseña</label>
+        <label for="contrasenia">Contraseña</label>
         <input type="password" class="form-control" id="contrasenia" 
                 name="contrasenia" placeholder="Entre 8 y 16 dígitos de longitud" 
                 required minlength="8" maxlength="16"
