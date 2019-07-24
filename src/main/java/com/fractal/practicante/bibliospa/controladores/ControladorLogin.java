@@ -54,6 +54,12 @@ public class ControladorLogin extends HttpServlet {
                 );
             break;
             
+            case "vistaLogin":
+                requestDispatcher = getServletContext().getRequestDispatcher(
+                    "/vistas/login/Login.jsp"
+                );
+            break;
+            
             case "login":
                 String usuario = request.getParameter("usuario");
                 String contrasenia = request.getParameter("contrasenia");
