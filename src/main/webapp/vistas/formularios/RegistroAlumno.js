@@ -2,6 +2,7 @@ var RegistroAlumno = {
     cargarModulo: function () {
         $('#btnRegistrar').unbind('click').bind('click', function(){
             event.preventDefault();
+            RegistroAlumno.peticionRegistrar();
         });
         
         $('#btnCancelar').unbind('click').bind('click', function(){
@@ -29,7 +30,7 @@ var RegistroAlumno = {
     
     peticionRegistrar: function () {
         $.ajax({
-            url: 'http://localhost:8080/biblioSPA/ControladorLogin',
+            url: 'http://localhost:8080/biblioSPA/ControladorAlumno',
             method: 'POST',
             data:{
                 ACCION: "registrar",
@@ -43,7 +44,20 @@ var RegistroAlumno = {
             }
         })
         .done(function () {
-            
+            switch (arguments[0]) {
+                    case "success":
+                        RegistroAlumno.peticionVistaLogin();
+                        alert('Te registraste correctamente');
+                    break;
+
+                    case "error_data":
+                        alert("Los datos en los campos no coinciden");
+                    break;
+                    
+                    case "empty_data":
+                        alert("Procura llenar los campos");
+                    break;
+                }
         })
         .fail(function () {
             

@@ -71,12 +71,13 @@ public class ControladorAlumno extends HttpServlet {
                         
                         mt.insertarAlumno(conexion.getConexion(), alumnoObjeto, usuarioObjeto);
                         conexion.desconectar();
+                        mensajeControladorAlumno = "success";
                         
                     } else {
-                        mensajeControladorAlumno = "Los campos no coinciden";
+                        mensajeControladorAlumno = "error_data";
                     }
                 } else {
-                    mensajeControladorAlumno = "Campos Vacios";
+                    mensajeControladorAlumno = "empty_data";
                 }
                 
             break;
