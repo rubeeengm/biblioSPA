@@ -5,8 +5,15 @@
  */
 package com.fractal.practicante.bibliospa.controladores;
 
+import com.fractal.practicante.bibliospa.modelo.beans.Alumno;
+import com.fractal.practicante.bibliospa.modelo.beans.Usuario;
+import com.fractal.practicante.bibliospa.modelo.conexion.Conexion;
+import com.fractal.practicante.bibliospa.modelo.modelos.ModeloTransacciones;
+import com.fractal.practicante.bibliospa.modelo.validaciones.ValidacionAlumno;
+import com.fractal.practicante.bibliospa.modelo.validaciones.ValidacionUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,17 +39,58 @@ public class ControladorAlumno extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        String accion = request.getParameter("ACCION");
+        RequestDispatcher  requestDispatcher = null;
+        Conexion conexion = new Conexion();
+        conexion.conectar();
+        String mensajeControladorAlumno = "";
+        
+        switch(accion){
+            case "registrar":
+                String nombre = request.getParameter("nombre");
+                String apellidoPaterno = request.getParameter("apellidoPaterno");
+                String apellidoMaterno = request.getParameter("apellidoMaterno");
+                String telefono = request.getParameter("telefono");
+                String dni = request.getParameter("dni");
+                String nombreUsuario = request.getParameter("nombreUsuario");
+                String contrasenia = request.getParameter("contrasenia");
+                
+                Alumno alumnoObjeto = new Alumno(nombre, apellidoPaterno, apellidoMaterno, telefono, dni);
+                Usuario usuarioObjeto = new Usuario(nombreUsuario, contrasenia);
+                
+                ValidacionAlumno valAl = new ValidacionAlumno();                
+                ValidacionUsuario valUs = new ValidacionUsuario();
+                
+                ModeloTransacciones mt = new ModeloTransacciones();
+                
+                if(valAl.validarNulos(alumnoObjeto) && 
+                        valUs.validarNulos(usuarioObjeto)){
+                    if (valAl.validacionTotal(alumnoObjeto) && 
+                            valUs.validacionTotal(usuarioObjeto)) {
+                        
+                        mt.insertarAlumno(conexion.getConexion(), alumnoObjeto, usuarioObjeto);
+                        conexion.desconectar();
+                        
+                    } else {
+                        mensajeControladorAlumno = "Los campos no coinciden";
+                    }
+                } else {
+                    mensajeControladorAlumno = "Campos Vacios";
+                }
+                
+            break;
+            
+            default:
+                System.out.println("Error de ruta");
+            break;
+        }
+        
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ControladorAlumno</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ControladorAlumno at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            if(requestDispatcher != null){
+                requestDispatcher.forward(request, response);
+            }           
+            out.print(mensajeControladorAlumno);
         }
     }
 
