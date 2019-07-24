@@ -28,6 +28,26 @@ var RegistroAlumno = {
     },
     
     peticionRegistrar: function () {
-        
+        $.ajax({
+            url: 'http://localhost:8080/biblioSPA/ControladorLogin',
+            method: 'POST',
+            data:{
+                ACCION: "registrar",
+                nombre: $('#nombre').val(),
+                apellidoPaterno: $('#apellidoPaterno').val(),
+                apellidoMaterno: $('#apellidoMaterno').val(),
+                telefono: $('#telefono').val(),
+                dni: $('#dni').val(),
+                nombreUsuario: $('#nombreUsuario').val(),
+                contrasenia: $('#contrasenia').val()
+            }
+        })
+        .done(function () {
+            
+        })
+        .fail(function () {
+            
+        });
+          
     }
 }
