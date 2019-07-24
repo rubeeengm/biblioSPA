@@ -5,11 +5,13 @@
  */
 package com.fractal.practicante.bibliospa.controladores;
 
-import java.io.BufferedReader;
+import com.fractal.practicante.bibliospa.modelo.beans.Usuario;
+import com.fractal.practicante.bibliospa.modelo.modelos.ModeloUsuarios;
+import com.fractal.practicante.bibliospa.modelo.validaciones.ValidacionUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,14 +19,14 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author lasergun
+ * @author user
  */
-@WebServlet(name = "Controlador", urlPatterns = {"/Controlador"})
-public class Controlador extends HttpServlet {
+@WebServlet(name = "ControladorLogin", urlPatterns = {"/ControladorLogin"})
+public class ControladorLogin extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP <code>GET</code> and
+     * <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -35,35 +37,40 @@ public class Controlador extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        //String accion = request.getParameter("ACCION");
-//        ServletInputStream accion = request.getInputStream();
-//
-//        System.out.println(accion);
-
-        StringBuilder sb = new StringBuilder();
-        BufferedReader br = request.getReader();
-        String str;
+        String accion = request.getParameter("ACCION");
+        RequestDispatcher  requestDispatcher = null;
         
-        while( (str = br.readLine()) != null ){
-            sb.append(str);
+        switch(accion) {
+            case "vistaRegistrar":
+                requestDispatcher = getServletContext().getRequestDispatcher(
+                    "/vistas/formularios/RegistroAlumno.jsp"
+                );
+            break;
+            
+            case "login":
+                String usuario = request.getParameter("usuario");
+                String contrasenia = request.getParameter("contrasenia");
+                
+                Usuario objetoUsuario = new Usuario(usuario, contrasenia);
+                
+                ValidacionUsuario vu = new ValidacionUsuario();
+                ModeloUsuarios mu = new ModeloUsuarios();
+                
+                if (vu.validacionTotal(objetoUsuario)) {
+                    //objetoUsuario = mu.verificarLogin(conexion, objetoUsuario);
+                }
+                
+                
+            break;
+            
+            default:
+                System.out.println("Error de ruta");
+            break;
         }
         
-        System.out.println(sb.toString());
-        //JSONObject jObj = new JSONObject(sb.toString());
-        
-        //try (PrintWriter out = response.getWriter()) {
-            
-            /* TODO output your page here. You may use following sample code. */
-//            out.println("<!DOCTYPE html>");
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet Controlador</title>");            
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("<h1>Servlet Controlador at " + request.getContextPath() + "</h1>");
-//            out.println("</body>");
-//            out.println("</html>");
-        //}
+        try (PrintWriter out = response.getWriter()) {
+            requestDispatcher.forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

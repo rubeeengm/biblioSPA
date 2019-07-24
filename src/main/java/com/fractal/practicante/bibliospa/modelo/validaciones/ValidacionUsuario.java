@@ -27,7 +27,7 @@ public class ValidacionUsuario extends Validacion<Usuario>{
      */
     @Override
     public boolean validarNulos(Usuario usuario) {
-        if(usuario.getUsuario() == null || usuario.getContrasenia() == null){
+        if(usuario.getNombreUsuario() == null || usuario.getContrasenia() == null){
             System.out.println("Datos nulos");
             return false;
         } else {
@@ -45,7 +45,7 @@ public class ValidacionUsuario extends Validacion<Usuario>{
     @Override
     public boolean validacionTotal(Usuario usuario) {
         if(validarNulos(usuario)){
-            if(validarExpresion(REGEX_NOMBREUSUARIO, usuario.getUsuario())){
+            if(validarExpresion(REGEX_NOMBREUSUARIO, usuario.getNombreUsuario())){
                 if(validarExpresion(REGEX_CONTRASENIA, usuario.getContrasenia())){
                     System.out.println("Usuario validado con éxito");
                     return true;
