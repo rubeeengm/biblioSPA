@@ -21,10 +21,13 @@ public class ModeloTransacciones {
      * @return Regresa false de no haberse completado y true de sí haberse
      * realizado.
      */
-    public boolean insertarAlumno(Connection conexion, Alumno alumno, Usuario usuario) {
+    public boolean insertarAlumno(Connection conexion, Alumno alumno, 
+            Usuario usuario) {
         try {
             PreparedStatement consulta;
-            consulta = conexion.prepareStatement("CALL USP_ALUMNOSUSUARIOS_C (?, ?, ?, ?, ?, ?, ?);");
+            consulta = conexion.prepareStatement(
+                    "CALL USP_ALUMNOSUSUARIOS_C (?, ?, ?, ?, ?, ?, ?);"
+            );
             consulta.setString(1, alumno.getNombre());
             consulta.setString(2, alumno.getApellidoPaterno());
             consulta.setString(3, alumno.getApellidoMaterno());
