@@ -39,6 +39,24 @@ public class Alumno {
      * @param apellidoMaterno   Apellido materno del alumno
      * @param telefono          Número teléfonico del alumno
      * @param dni               Documento nacional de identidad
+     */
+    public Alumno(String nombre, String apellidoPaterno, 
+                  String apellidoMaterno, String telefono, 
+                  String dni) {
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.telefono = telefono;
+        this.dni = dni;
+    }
+    
+    /**
+     * 
+     * @param nombre            Nombre del alumno
+     * @param apellidoPaterno   Apellido paterno del alumno
+     * @param apellidoMaterno   Apellido materno del alumno
+     * @param telefono          Número teléfonico del alumno
+     * @param dni               Documento nacional de identidad
      * @param idUsuario         Identificador del usuario
      */
     public Alumno(String nombre, String apellidoPaterno, 
