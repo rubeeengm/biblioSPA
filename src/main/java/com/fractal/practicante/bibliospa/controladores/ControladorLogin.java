@@ -66,10 +66,10 @@ public class ControladorLogin extends HttpServlet {
                 if (vu.validarNulos(objetoUsuario)) {
                     try {
                         objetoUsuario = mu.verificarLogin(conexion.getConexion(), objetoUsuario);
-                        
+                        conexion.desconectar();
                         if(objetoUsuario.getId() == 0) {
                             mensajeLogin = "Lmal";
-                        } else if(objetoUsuario.getAdmin() == '0') {
+                        } else if(objetoUsuario.getAdmin() == '1') {
                             mensajeLogin = "Ladmin";
                         } else {
                             mensajeLogin = "Lbien";
