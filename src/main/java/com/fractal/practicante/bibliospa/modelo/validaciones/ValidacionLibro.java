@@ -120,16 +120,19 @@ public class ValidacionLibro extends Validacion<Libro> {
         } else if(!validarExpresion(REGEX_TITULO, titulo)){
             System.out.println("Titulo erroneo");
             return false;
-        } else if(validarExpresion(REGEX_AUTOR, autor)){
+        } else if(!validarExpresion(REGEX_AUTOR, autor)){
             System.out.println("Autor erroneo");
             return false;
-        } else if(validarExpresion(REGEX_NUM_PAGINAS, numPaginas)){
+        } else if(!validarExpresion(REGEX_NUM_PAGINAS, numPaginas)){
             System.out.println("Numero de paginas erroneo");
             return false;
-        } else if(validarExpresion(REGEX_ISBN, isbn)){
+        } else if(!validarExpresion(REGEX_ISBN, isbn)){
             System.out.println("ISBN erroneo");
             return false;
-        } else{
+        } else if(!validarTamanioIsbn(isbn)){
+            System.out.println("Tamaño del isbn erroneo");
+            return false;
+        } else { 
             System.out.println("Datos correctos");
             return true;
         }

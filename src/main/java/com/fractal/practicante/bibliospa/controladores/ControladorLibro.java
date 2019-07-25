@@ -20,6 +20,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -29,8 +30,8 @@ import javax.servlet.http.HttpServletResponse;
 public class ControladorLibro extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and
-     * <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -40,45 +41,49 @@ public class ControladorLibro extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         String accion = request.getParameter("ACCION");
+
         RequestDispatcher  requestDispatcher = null;
+        HttpSession session=request.getSession();
         Conexion conexion = new Conexion();
         conexion.conectar();
         String mensajeLibro = "";
-        
-        switch(accion){
-            case "registro":
-                String titulo = request.getParameter("titulo");
-                String autor = request.getParameter("autor");
-                String isbn = request.getParameter("isbn");
-                int numPaginas = Integer.parseInt(request.getParameter("numPaginas"));
-                Libro objetoLibro = new Libro(titulo, autor, numPaginas, isbn);
-                
-                ValidacionLibro valLibro = new ValidacionLibro();
-                ModeloLibros modLibros = new ModeloLibros();
-                
-                if(valLibro.validacionTotal(objetoLibro)){
-                    try {
+      
+        if(session.getAttribute("Admin").equals('1')){
+            switch(accion){
+                case "registro":
+                    String titulo = request.getParameter("titulo");
+                    String autor = request.getParameter("autor");
+                    String isbn = request.getParameter("isbn");
+                    int numPaginas = Integer.parseInt(request.getParameter("numPaginas"));
+                    Libro objetoLibro = new Libro(titulo, autor, numPaginas, isbn);
+
+                    ValidacionLibro valLibro = new ValidacionLibro();
+                    ModeloLibros modLibros = new ModeloLibros();
+
+                    if(valLibro.validacionTotal(objetoLibro)){
+                      try {
                         modLibros.insertar(conexion.getConexion(), objetoLibro);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(ControladorLibro.class.getName()).log(Level.SEVERE, null, ex);
+                      } catch (SQLException ex) {
+                        System.out.println("Error al insertar libro");
+                      }
+                      conexion.desconectar();
+                    }else{
+                      mensajeLibro = "Campos vacíos";
                     }
-                    conexion.desconectar();
-                }else{
-                    mensajeLibro = "Campos vacíos";
-                }
-            break;
-            
-            default:
-            break;
-        }
-        
-        try (PrintWriter out = response.getWriter()) {
-            if(requestDispatcher != null){
-                requestDispatcher.forward(request, response);
+                break;
+
+                default:
+                break;
             }
-            out.print(mensajeLibro);
+
+            try (PrintWriter out = response.getWriter()) {
+                if(requestDispatcher != null){
+                    requestDispatcher.forward(request, response);
+                }
+                out.print(mensajeLibro);
+            }
         }
     }
 

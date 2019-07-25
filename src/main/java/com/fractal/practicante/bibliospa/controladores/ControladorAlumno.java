@@ -150,8 +150,8 @@ public class ControladorAlumno extends HttpServlet {
                 requestDispatcher = getServletContext().getRequestDispatcher(
                     "/vistas/alumnos/LibrosDisponibles.jsp"
                 );
-                break;
-
+            break;
+            
             default:
                 System.out.println("Error de ruta");
                 break;

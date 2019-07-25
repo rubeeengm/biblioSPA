@@ -118,6 +118,19 @@ public class ModeloLibros implements OperacionObtener<Libro>,
      * @return ArrayList de objetos de tipo Libro igual al número de Libros registrados en la BD con todos sus datos.
      * @throws SQLException 
      */
+    public boolean eliminar(Connection conexion, int id) throws SQLException{
+        try{
+            PreparedStatement consulta;
+            consulta = conexion.prepareStatement("CALL USP_LIBROS_D (?);");
+            consulta.setInt(1, id);
+            consulta.executeUpdate();
+            return true;
+        }catch(SQLException error){
+            return false;
+        }    
+        
+    }
+          
     @Override
     public ArrayList<Libro> obtenerTodos(Connection conexion) 
             throws SQLException{
