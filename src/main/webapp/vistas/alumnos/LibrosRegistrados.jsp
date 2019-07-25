@@ -5,39 +5,36 @@
     Nota       : SI EL ADMIN ES EL QUE CONSULTA ESTA PAGINA, ENTONCES EL BOTON
                  REGRESAR LO TIENE QUE MANDAR A LA VISTA PRINCIPAL DEL ALUMNO
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="java.util.ArrayList"%>
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ page import="com.fractal.practicante.bibliospa.modelo.beans.Libro" %>
+
 <h1>Libros Registrados</h1>
+<%
+    ArrayList<Libro> libros = (ArrayList<Libro>) request.getAttribute("listaLibrosRegistrados");
+    request.setAttribute("libros", libros);
+%>
 
 <table class="table">
-    <thead>
+    <thead class="thead-dark">
         <tr>
-            <th scope="col">#</th>
             <th scope="col">Titulo</th>
             <th scope="col">Autor</th>
-            <th scope="col">ISBN</th>
             <th scope="col">Numero de paginas</th>
-            <th scope="col">Status</th>
+            <th scope="col">Estado</th>
         </tr>
     </thead>
 
     <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Matematicas 1</td>
-            <td>Jorge Hernandez</td>
-            <td>12-154-12365-12</td>
-            <td>255</td>
-            <td>Disponible</td>
-        </tr>
-
-        <tr>
-            <th scope="row">2</th>
-            <td>Fisica 1</td>
-            <td>Marco Lopez</td>
-            <td>12-154-12365-15</td>
-            <td>110</td>
-            <td>Usado</td>
-        </tr>
+        <c:forEach var="libro" items="${libros}">
+            <tr>
+                <td>${libro.getTitulo()}</td>
+                <td>${libro.getAutor()}</td>
+                <td>${libro.getNumPaginas()}</td>
+                <td>${libro.getEstado()}</td>                        
+            </tr>
+        </c:forEach>
     </tbody>                       
 </table>
 

@@ -53,6 +53,8 @@ public class ControladorAlumno extends HttpServlet {
         Conexion conexion = new Conexion();
         conexion.conectar();
         String mensajeControladorAlumno = "";
+        ModeloLibros ml;
+        ArrayList<Libro> librosAlumno = null;
 
         switch (accion) {
             case "registrar":
@@ -100,16 +102,26 @@ public class ControladorAlumno extends HttpServlet {
                 break;
 
             case "vistaLibrosRegistrados":
+                ml = new ModeloLibros();
+                
+                try {
+                    librosAlumno = ml.obtenerTodos(conexion.getConexion());
+                } catch (SQLException ex) {
+                    Logger.getLogger(ControladorAlumno.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                conexion.desconectar();
+                
                 requestDispatcher = getServletContext().getRequestDispatcher(
                     "/vistas/alumnos/LibrosRegistrados.jsp"
                 );
+                request.setAttribute("listaLibrosRegistrados", librosAlumno);
                 break;
 
             case "vistaLibrosAlumno":
-                ModeloLibros ml = new ModeloLibros();
+                ml = new ModeloLibros();
                 HttpSession misession = (HttpSession) request.getSession();
                 int idUsuarioSession = (int) misession.getAttribute("idUsuario");
-                ArrayList<Libro> librosAlumno = null;
                 
                 System.out.println(idUsuarioSession);
                 
@@ -124,10 +136,6 @@ public class ControladorAlumno extends HttpServlet {
                             Level.SEVERE, null, ex
                     );
                 }
-                
-//              for (Libro libro : librosAlumno) {
-//                  System.out.println(libro.getTitulo());
-//              }
                 
                 conexion.desconectar();
                 
