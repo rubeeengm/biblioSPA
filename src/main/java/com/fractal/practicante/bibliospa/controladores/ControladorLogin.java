@@ -91,27 +91,34 @@ public class ControladorLogin extends HttpServlet {
                 ModeloUsuarios mu = new ModeloUsuarios();
                 
                 if (vu.validarNulos(objetoUsuario)) {
-                    try {
-                        objetoUsuario = mu.verificarLogin(
-                                conexion.getConexion(), 
-                                objetoUsuario
-                        );
-                        
-                        conexion.desconectar();
-                        
-                        if(objetoUsuario.getId() == 0) {
-                            mensajeLogin = "LI";
-                        } else if(objetoUsuario.getAdmin() == '1') {
-                            mensajeLogin = "LA";
-                            session.setAttribute("Admin",'1');
-                        } else {
-                            mensajeLogin = "LC";
+                    if(vu.validarVacios(objetoUsuario)){
+                        try {
+                            objetoUsuario = mu.verificarLogin(
+                                    conexion.getConexion(), 
+                                    objetoUsuario
+                            );                        
+                            conexion.desconectar();
+
+                            if(objetoUsuario.getId() == 0) {
+                                mensajeLogin = "LI";
+                            } else if(objetoUsuario.getAdmin() == '1') {
+                                mensajeLogin = "LA";
+                                session.setAttribute("Admin",'1');
+                            } else {
+                                mensajeLogin = "LC";
+                                HttpSession misession = request.getSession(true);
+                                misession.setAttribute("idUsuario", objetoUsuario.getId());
+                            }
+                        } catch (SQLException ex) {
+                            Logger.getLogger(ControladorLogin.class.getName()).
+                                log(Level.SEVERE, null, ex
+                            );
                         }
-                    } catch (SQLException ex) {
-                        Logger.getLogger(ControladorLogin.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    } else {
+                        mensajeLogin = "Campos vacios";
+                    }    
                 } else {
-                    mensajeLogin = "Campos vacíos";
+                    mensajeLogin = "Campos nulos";
                 }
             break;
             

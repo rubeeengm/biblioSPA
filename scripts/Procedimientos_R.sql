@@ -1,4 +1,4 @@
-﻿#Creacion procedimiento select ALUMNOS
+#Creacion procedimiento select ALUMNOS
 #Procedimiento para la obtención de datos de la tabla Alumnos del registro con id
 #igual al que se recibió como argumento, devolviendo todos sus datos.
 DROP PROCEDURE IF EXISTS `USP_ALUMNOS_R`;

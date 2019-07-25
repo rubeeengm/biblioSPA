@@ -48,6 +48,7 @@ public class ControladorLibro extends HttpServlet {
         Conexion conexion = new Conexion();
         conexion.conectar();
         String mensajeLibro = "";
+      
         if(session.getAttribute("Admin").equals('1')){
             switch(accion){
                 case "registro":
@@ -66,10 +67,10 @@ public class ControladorLibro extends HttpServlet {
                 } catch (SQLException ex) {
                     System.out.println("Error al insertar libro");
                 }
-                        conexion.desconectar();
-                    }else{
-                        mensajeLibro = "Campos vacíos";
-                    }
+                conexion.desconectar();
+          }else{
+            mensajeLibro = "Campos vacíos";
+          }
                 break;
 
                 default:
