@@ -5,15 +5,12 @@
  */
 package com.fractal.practicante.bibliospa.controladores;
 
-import com.fractal.practicante.bibliospa.modelo.beans.Usuario;
+import com.fractal.practicante.bibliospa.modelo.beans.Libro;
 import com.fractal.practicante.bibliospa.modelo.conexion.Conexion;
-import com.fractal.practicante.bibliospa.modelo.modelos.ModeloUsuarios;
-import com.fractal.practicante.bibliospa.modelo.validaciones.ValidacionUsuario;
+import com.fractal.practicante.bibliospa.modelo.modelos.ModeloLibros;
+import com.fractal.practicante.bibliospa.modelo.validaciones.ValidacionLibro;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,8 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author user
  */
-@WebServlet(name = "ControladorLogin", urlPatterns = {"/ControladorLogin"})
-public class ControladorLogin extends HttpServlet {
+@WebServlet(name = "ControladorLibro", urlPatterns = {"/ControladorLibro"})
+public class ControladorLibro extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and
@@ -37,8 +34,7 @@ public class ControladorLogin extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, 
-            HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
@@ -46,62 +42,28 @@ public class ControladorLogin extends HttpServlet {
         RequestDispatcher  requestDispatcher = null;
         Conexion conexion = new Conexion();
         conexion.conectar();
-        String mensajeLogin = "";
+        String mensajeLibro = "";
         
-        switch(accion) {
-            case "vistaRegistrar":
-                requestDispatcher = getServletContext().getRequestDispatcher(
-                    "/vistas/formularios/RegistroAlumno.jsp"
-                );
-            break;
-            
-            case "vistaLogin":
-                requestDispatcher = getServletContext().getRequestDispatcher(
-                    "/vistas/login/Login.jsp"
-                );
-            break;
-            
-            case "vistaAdmin":
-                requestDispatcher = getServletContext().getRequestDispatcher(
-                    "/vistas/admin/Admin.jsp"
-                );
-                break;
-            
-            case "login":
-                String usuario = request.getParameter("usuario");
-                String contrasenia = request.getParameter("contrasenia");
+        switch(accion){
+            case "registro":
+                String titulo = request.getParameter("titulo");
+                String autor = request.getParameter("autor");
+                String isbn = request.getParameter("isbn");
+                int numPaginas = Integer.parseInt(request.getParameter("numPaginas"));
+                Libro objetoLibro = new Libro(titulo, autor, numPaginas, isbn);
                 
-                Usuario objetoUsuario = new Usuario(usuario, contrasenia);
+                ValidacionLibro valLibro = new ValidacionLibro();
+                ModeloLibros modLibros = new ModeloLibros();
                 
-                ValidacionUsuario vu = new ValidacionUsuario();
-                ModeloUsuarios mu = new ModeloUsuarios();
-                
-                if (vu.validarNulos(objetoUsuario)) {
-                    try {
-                        objetoUsuario = mu.verificarLogin(
-                                conexion.getConexion(), 
-                                objetoUsuario
-                        );
-                        
-                        conexion.desconectar();
-                        
-                        if(objetoUsuario.getId() == 0) {
-                            mensajeLogin = "LI";
-                        } else if(objetoUsuario.getAdmin() == '1') {
-                            mensajeLogin = "LA";
-                        } else {
-                            mensajeLogin = "LC";
-                        }
-                    } catch (SQLException ex) {
-                        Logger.getLogger(ControladorLogin.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } else {
-                    mensajeLogin = "Campos vacíos";
+                if(valLibro.validacionTotal(objetoLibro)){
+                    modLibros.insertar(conexion.getConexion(), objetoLibro);
+                    conexion.desconectar();
+                }else{
+                    mensajeLibro = "Campos vacíos";
                 }
             break;
             
             default:
-                System.out.println("Error de ruta");
             break;
         }
         
@@ -109,7 +71,7 @@ public class ControladorLogin extends HttpServlet {
             if(requestDispatcher != null){
                 requestDispatcher.forward(request, response);
             }
-            out.print(mensajeLogin);
+            out.print(mensajeLibro);
         }
     }
 

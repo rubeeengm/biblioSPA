@@ -8,11 +8,16 @@ package com.fractal.practicante.bibliospa.controladores;
 import com.fractal.practicante.bibliospa.modelo.beans.Alumno;
 import com.fractal.practicante.bibliospa.modelo.beans.Usuario;
 import com.fractal.practicante.bibliospa.modelo.conexion.Conexion;
+import com.fractal.practicante.bibliospa.modelo.modelos.ModeloUsuarios;
 import com.fractal.practicante.bibliospa.modelo.modelos.ModeloTransacciones;
 import com.fractal.practicante.bibliospa.modelo.validaciones.ValidacionAlumno;
 import com.fractal.practicante.bibliospa.modelo.validaciones.ValidacionUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -82,6 +87,18 @@ public class ControladorAlumno extends HttpServlet {
                 
             break;
             
+            case "vistaLibrosRegistrados":
+                requestDispatcher = getServletContext().getRequestDispatcher(
+                    "/vistas/alumnos/LibrosRegistrados.jsp"
+                );
+            break;
+            
+            case "vistaLibrosAlumno":
+                requestDispatcher = getServletContext().getRequestDispatcher(
+                    "/vistas/alumnos/LibrosAlumno.jsp"
+                );
+            break;
+            
             default:
                 System.out.println("Error de ruta");
             break;
@@ -91,6 +108,7 @@ public class ControladorAlumno extends HttpServlet {
             if(requestDispatcher != null){
                 requestDispatcher.forward(request, response);
             }           
+            
             out.print(mensajeControladorAlumno);
         }
     }

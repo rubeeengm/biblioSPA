@@ -1,65 +1,44 @@
-var Login = {
+var Admin = {
     cargarModulo: function () {
-        $('#buttonLogin').unbind('click').bind('click', function (event) {
+       $('#buttonSalir').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            $.ajax({
-                url: 'http://localhost:8080/biblioSPA/ControladorLogin',
-                method: 'POST',
-                data: {
-                    ACCION: "login",
-                    usuario: $('#usuario').val(),
-                    contrasenia: $('#contrasenia').val()
-                }
-            }).done(function () {
-                switch (arguments[0]) {
-                    case "Lbien":
-                        alert("Entraste");
-                        break;
-
-                    case "Lmal":
-                        alert("Usuario o contraseña incorrectos");
-                        break;
-                }
-            }).fail(function () {
-                alert("Error");
-            });
+            Admin.peticionVistaIndex();
         });
-
-        $('#buttonRegistrar').unbind('click').bind('click', function (event) {
+        $('#buttonRegistrarLibro').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            Login.peticionVistaRegistro();
+            Admin.peticionVistaRegistroLibro();
         });
     },
-    peticionVistaRegistro: function () {
+    peticionVistaIndex: function () {
         $.ajax({
             url: 'http://localhost:8080/biblioSPA/ControladorLogin',
             method: 'POST',
             data: {
-                ACCION: "vistaRegistrar"
+                ACCION: "vistaLogin"
             }
         }).done(function () {
             $('div.container').html(arguments[0]);
-            $.getScript("vistas/formularios/RegistroAlumno.js").done(function () {
-                RegistroAlumno.cargarModulo();
+            $.getScript("vistas/login/Login.js").done(function () {
+                Login.cargarModulo();
             });
         }).fail(function () {
             alert("Error");
         });
     },
-    peticionVistaAdmin: function () {
+    peticionVistaRegistroLibro: function () {
         $.ajax({
             url: 'http://localhost:8080/biblioSPA/ControladorAdmin',
             method: 'POST',
             data: {
-                ACCION: "vistaAdmin"
+                ACCION: "vistaRegistroLibro"
             }
         }).done(function () {
             $('div.container').html(arguments[0]);
-            $.getScript("vistas/formularios/RegistroAlumno.js").done(function () {
-                RegistroAlumno.cargarModulo();
+            $.getScript("vistas/formularios/RegistroLibro.js").done(function () {
+                RegistroLibro.cargarModulo();
             });
         }).fail(function () {
             alert("Error");
         });
     }
-}
+};
