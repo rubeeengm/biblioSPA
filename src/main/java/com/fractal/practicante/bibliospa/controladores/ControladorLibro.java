@@ -30,8 +30,8 @@ import javax.servlet.http.HttpSession;
 public class ControladorLibro extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and
-     * <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -41,8 +41,9 @@ public class ControladorLibro extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         String accion = request.getParameter("ACCION");
+
         RequestDispatcher  requestDispatcher = null;
         HttpSession session=request.getSession();
         Conexion conexion = new Conexion();
@@ -62,15 +63,15 @@ public class ControladorLibro extends HttpServlet {
                     ModeloLibros modLibros = new ModeloLibros();
 
                     if(valLibro.validacionTotal(objetoLibro)){
-                try {
-                    modLibros.insertar(conexion.getConexion(), objetoLibro);
-                } catch (SQLException ex) {
-                    System.out.println("Error al insertar libro");
-                }
-                conexion.desconectar();
-          }else{
-            mensajeLibro = "Campos vacíos";
-          }
+                      try {
+                        modLibros.insertar(conexion.getConexion(), objetoLibro);
+                      } catch (SQLException ex) {
+                        System.out.println("Error al insertar libro");
+                      }
+                      conexion.desconectar();
+                    }else{
+                      mensajeLibro = "Campos vacíos";
+                    }
                 break;
 
                 default:

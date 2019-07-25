@@ -8,13 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Clase que implementa las interfaces que permiten la obtencion y la insercion
- * de alumno en la BD.
- * @author Marco Lopez
- */
-public class ModeloLibrosDeAlumno implements OperacionObtener<LibroDeAlumno>, 
-        OperacionInsertar<LibroDeAlumno> {
+public class ModeloLibrosDeAlumno implements OperacionObtener<LibroDeAlumno>, OperacionInsertar<LibroDeAlumno> {
 
     /**
      * Método que al recibir una conexión y un objeto LibroDeAlumno, manda a
