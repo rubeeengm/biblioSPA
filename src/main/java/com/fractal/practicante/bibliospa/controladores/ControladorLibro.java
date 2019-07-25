@@ -11,6 +11,9 @@ import com.fractal.practicante.bibliospa.modelo.modelos.ModeloLibros;
 import com.fractal.practicante.bibliospa.modelo.validaciones.ValidacionLibro;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -56,7 +59,11 @@ public class ControladorLibro extends HttpServlet {
                 ModeloLibros modLibros = new ModeloLibros();
                 
                 if(valLibro.validacionTotal(objetoLibro)){
-                    modLibros.insertar(conexion.getConexion(), objetoLibro);
+                    try {
+                        modLibros.insertar(conexion.getConexion(), objetoLibro);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(ControladorLibro.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     conexion.desconectar();
                 }else{
                     mensajeLibro = "Campos vacíos";
