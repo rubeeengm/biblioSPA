@@ -20,6 +20,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -91,6 +92,8 @@ public class ControladorLogin extends HttpServlet {
                             mensajeLogin = "LA";
                         } else {
                             mensajeLogin = "LC";
+                            HttpSession misession = request.getSession(true);
+                            misession.setAttribute("idUsuario", objetoUsuario.getId());
                         }
                     } catch (SQLException ex) {
                         Logger.getLogger(ControladorLogin.class.getName()).log(Level.SEVERE, null, ex);
