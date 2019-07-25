@@ -96,7 +96,7 @@ public class ModeloUsuarios implements OperacionObtener<Usuario> {
         while (resultado.next()) {
             usuario = new Usuario(Integer.parseInt(resultado.getString("ID")),
                 resultado.getString("USUARIO"),
-                resultado.getString("CONTRASENIA"),
+                "",
                 resultado.getString("ADMIN").charAt(0));
         }
         return usuario;
