@@ -23,6 +23,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -47,6 +48,7 @@ public class ControladorLogin extends HttpServlet {
         
         String accion = request.getParameter("ACCION");
         RequestDispatcher  requestDispatcher = null;
+        HttpSession session=request.getSession();
         Conexion conexion = new Conexion();
         conexion.conectar();
         String mensajeLogin = "";
@@ -61,7 +63,8 @@ public class ControladorLogin extends HttpServlet {
             case "vistaLogin":
                 requestDispatcher = getServletContext().getRequestDispatcher(
                     "/vistas/login/Login.jsp"
-                );
+                ); 
+                session.setAttribute("Admin",'0');
             break;
             
             case "vistaAdmin":
@@ -100,6 +103,7 @@ public class ControladorLogin extends HttpServlet {
                             mensajeLogin = "LI";
                         } else if(objetoUsuario.getAdmin() == '1') {
                             mensajeLogin = "LA";
+                            session.setAttribute("Admin",'1');
                         } else {
                             mensajeLogin = "LC";
                         }
