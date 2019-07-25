@@ -34,6 +34,7 @@ public class ControladorAdmin extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
         String accion = request.getParameter("ACCION");
         RequestDispatcher  requestDispatcher = null;
         Conexion conexion = new Conexion();
@@ -41,8 +42,18 @@ public class ControladorAdmin extends HttpServlet {
         String mensajeAdmin = "";
         
         switch(accion){
-            case "":
+            case "vistaRegistroLibro":
+                requestDispatcher = getServletContext().getRequestDispatcher(
+                    "/vistas/formularios/RegistroLibro.jsp"
+                );
             break;
+            
+            case "vistaAdmin":
+                requestDispatcher = getServletContext().getRequestDispatcher(
+                    "/vistas/admin/Admin.jsp"
+                );
+            break;
+            
             default:
             break;
         }
@@ -51,7 +62,6 @@ public class ControladorAdmin extends HttpServlet {
             if(requestDispatcher != null){
                 requestDispatcher.forward(request, response);
             }
-            
             out.print(mensajeAdmin);
         }
     }
