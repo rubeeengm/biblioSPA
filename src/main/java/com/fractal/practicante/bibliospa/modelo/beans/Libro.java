@@ -48,6 +48,18 @@ public class Libro {
         this.numPaginas = numPaginas;
         this.isbn = isbn;
     }
+    
+    /**
+     * Constructor de Libro que usa los atributos titulo, autor, numPaginas
+     * @param titulo        Titulo del libro
+     * @param autor         Nombre del autor del libro
+     * @param numPaginas    Cantidad de páginas del libro
+     */
+    public Libro(String titulo, String autor, int numPaginas) {
+        this.titulo = titulo;
+        this.autor = autor;
+        this.numPaginas = numPaginas;
+    }
 
     /**
      * Constructor de Libro que usa los atributos id, titulos, autor, 
