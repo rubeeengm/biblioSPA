@@ -43,7 +43,7 @@
 </table>
 
 <div class="row">
-    <button id="agregarLibros" class="btn btn-sucess">Agregar Libros</button>
+    <button id="agregarLibros" class="btn btn-success">Agregar Libros</button>
     <button id="verListaLibrosRegistrados" class="btn btn-primary">Ver lista de libros</button>
     <button id="cerrarSesion" class="btn btn-warning">Cerrar Sesion</button>
 </div>
