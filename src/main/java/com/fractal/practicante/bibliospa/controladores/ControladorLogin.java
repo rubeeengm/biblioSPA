@@ -57,7 +57,7 @@ public class ControladorLogin extends HttpServlet {
             
             case "vistaLogin":
                 requestDispatcher = getServletContext().getRequestDispatcher(
-                    "/index.jsp"
+                    "/vistas/login/Login.jsp"
                 );
             break;
             

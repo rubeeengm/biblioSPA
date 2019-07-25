@@ -40,8 +40,9 @@ public class ValidacionAlumno extends Validacion<Alumno>{
         String telefono = alumno.getTelefono();
         String dni = alumno.getDni();
         
-        if(nombre == null || apellidoPaterno == null || apellidoMaterno == null
-                || telefono == null || dni == null){
+        if(nombre.equals("") || apellidoPaterno.equals("") || 
+                apellidoMaterno.equals("") || telefono.equals("") || 
+                dni.equals("")){
             
             System.out.println("Datos nulos");
             return false;
