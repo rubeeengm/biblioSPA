@@ -93,6 +93,8 @@ public class ControladorLogin extends HttpServlet {
                                 mensajeLogin = "LA";
                             } else {
                                 mensajeLogin = "LC";
+                                HttpSession misession = request.getSession(true);
+                                misession.setAttribute("idUsuario", objetoUsuario.getId());
                             }
                         } catch (SQLException ex) {
                             Logger.getLogger(ControladorLogin.class.getName()).
