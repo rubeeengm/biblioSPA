@@ -21,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -44,61 +45,69 @@ public class ControladorAdmin extends HttpServlet {
         
         String accion = request.getParameter("ACCION");
         RequestDispatcher  requestDispatcher = null;
+        HttpSession session=request.getSession();
         Conexion conexion = new Conexion();
         conexion.conectar();
         ArrayList<Libro> libros = new ArrayList();
         ModeloLibros modLibros = new ModeloLibros();
-        ModeloLibrosDeAlumno modLibrosDA = new ModeloLibrosDeAlumno();
         String mensajeAdmin = "";
         
-        switch(accion){
-            case "vistaRegistroLibro":
-                requestDispatcher = getServletContext().getRequestDispatcher(
-                    "/vistas/formularios/RegistroLibro.jsp"
-                );
-            break;
-            
-            case "vistaAdmin":
-                requestDispatcher = getServletContext().getRequestDispatcher(
-                    "/vistas/admin/Admin.jsp"
-                );
-            break;
-            case "obtenerLibros":
-                try {
-                    libros = modLibros.obtenerTodos(conexion.getConexion());
-                    for (int i = 0; i < libros.size(); i++) {
-                        System.out.println("--------------------------");
-                        System.out.println(libros.get(i).getId());
-                        System.out.println(libros.get(i).getTitulo());
-                        System.out.println(libros.get(i).getAutor());
-                        System.out.println(libros.get(i).getNumPaginas());
-                        System.out.println(libros.get(i).getEstado());
-                        System.out.println(libros.get(i).getIsbn());
-                        System.out.println("--------------------------");
+        if(session.getAttribute("Admin").equals('1')){
+            switch(accion){
+                case "vistaRegistroLibro":
+                    requestDispatcher = getServletContext().getRequestDispatcher(
+                        "/vistas/formularios/RegistroLibro.jsp"
+                    );
+                break;
+
+                case "vistaAdmin":
+                    requestDispatcher = getServletContext().getRequestDispatcher(
+                        "/vistas/admin/Admin.jsp"
+                    );
+                    try {
+                        libros = modLibros.obtenerTodos(conexion.getConexion());
+                    } catch (SQLException ex) {
+                        System.out.println("Error al recuperar todos los libros");
                     }
-                } catch (SQLException ex) {
-                    System.out.println("Error en la obtencion de libros");
-                }
+                    request.setAttribute("libros", libros);
                 break;
-                
-            case "eliminarLibro":
-                try {
-                    modLibrosDA.eliminar(conexion.getConexion(), Integer.parseInt(request.getParameter("idlibro")));
-                    System.out.println("Se eliminó el libro");
-                } catch (SQLException ex) {
-                    System.out.println("Error en la eliminacion del libro");
-                }
-                break;
-                
-            default:
-                break;
-        }
-        
-        try (PrintWriter out = response.getWriter()) {
-            if(requestDispatcher != null){
-                requestDispatcher.forward(request, response);
+                case "obtenerLibros":
+                    try {
+                        libros = modLibros.obtenerTodos(conexion.getConexion());
+                        for (int i = 0; i < libros.size(); i++) {
+                            System.out.println("--------------------------");
+                            System.out.println(libros.get(i).getId());
+                            System.out.println(libros.get(i).getTitulo());
+                            System.out.println(libros.get(i).getAutor());
+                            System.out.println(libros.get(i).getNumPaginas());
+                            System.out.println(libros.get(i).getEstado());
+                            System.out.println(libros.get(i).getIsbn());
+                            System.out.println("--------------------------");
+                        }
+                    } catch (SQLException ex) {
+                        System.out.println("Error en la obtencion de libros");
+                    }
+                    break;
+
+                case "eliminarLibro":
+                    try {
+                        modLibros.eliminar(conexion.getConexion(), Integer.parseInt(request.getParameter("idlibro")));
+                        System.out.println("Se eliminó el libro");
+                    } catch (SQLException ex) {
+                        System.out.println("Error en la eliminacion del libro");
+                    }
+                    break;
+
+                default:
+                    break;
             }
-            out.print(mensajeAdmin);
+
+            try (PrintWriter out = response.getWriter()) {
+                if(requestDispatcher != null){
+                    requestDispatcher.forward(request, response);
+                }
+                out.print(mensajeAdmin);
+            }
         }
     }
 
