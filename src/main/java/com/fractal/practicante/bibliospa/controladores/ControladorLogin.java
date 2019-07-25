@@ -5,13 +5,16 @@
  */
 package com.fractal.practicante.bibliospa.controladores;
 
+import com.fractal.practicante.bibliospa.modelo.beans.Libro;
 import com.fractal.practicante.bibliospa.modelo.beans.Usuario;
 import com.fractal.practicante.bibliospa.modelo.conexion.Conexion;
+import com.fractal.practicante.bibliospa.modelo.modelos.ModeloLibros;
 import com.fractal.practicante.bibliospa.modelo.modelos.ModeloUsuarios;
 import com.fractal.practicante.bibliospa.modelo.validaciones.ValidacionUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -65,6 +68,14 @@ public class ControladorLogin extends HttpServlet {
                 requestDispatcher = getServletContext().getRequestDispatcher(
                     "/vistas/admin/Admin.jsp"
                 );
+                ArrayList<Libro> libros = new ArrayList();
+                ModeloLibros ml = new ModeloLibros();
+                try {
+                    libros = ml.obtenerTodos(conexion.getConexion());
+                } catch (SQLException ex) {
+                    System.out.println("Error al recuperar todos los libros");
+                }
+                request.setAttribute("libros", libros);
                 break;
             
             case "login":

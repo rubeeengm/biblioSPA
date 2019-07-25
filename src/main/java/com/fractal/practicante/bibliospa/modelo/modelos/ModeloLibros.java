@@ -89,7 +89,6 @@ public class ModeloLibros implements OperacionObtener<Libro>, OperacionObtenerTo
      * @return Regresa false de no haberse completado y true de sí haberse realizado.
      * @throws SQLException 
      */
-    /*
     public boolean eliminar(Connection conexion, int id) throws SQLException{
         try{
             PreparedStatement consulta;
@@ -102,7 +101,6 @@ public class ModeloLibros implements OperacionObtener<Libro>, OperacionObtenerTo
         }    
         
     }
-    */
     
     /**
      * Método que al recibir una conexión y un entero, manda a llamar al procedimiento adecuado de la BD para modificar un registro de un Libro en particular, cambiando su estado a 0.

@@ -48,7 +48,6 @@ public class ControladorAdmin extends HttpServlet {
         conexion.conectar();
         ArrayList<Libro> libros = new ArrayList();
         ModeloLibros modLibros = new ModeloLibros();
-        ModeloLibrosDeAlumno modLibrosDA = new ModeloLibrosDeAlumno();
         String mensajeAdmin = "";
         
         switch(accion){
@@ -62,6 +61,12 @@ public class ControladorAdmin extends HttpServlet {
                 requestDispatcher = getServletContext().getRequestDispatcher(
                     "/vistas/admin/Admin.jsp"
                 );
+                try {
+                    libros = modLibros.obtenerTodos(conexion.getConexion());
+                } catch (SQLException ex) {
+                    System.out.println("Error al recuperar todos los libros");
+                }
+                request.setAttribute("libros", libros);
             break;
             case "obtenerLibros":
                 try {
@@ -83,7 +88,7 @@ public class ControladorAdmin extends HttpServlet {
                 
             case "eliminarLibro":
                 try {
-                    modLibrosDA.eliminar(conexion.getConexion(), Integer.parseInt(request.getParameter("idlibro")));
+                    modLibros.eliminar(conexion.getConexion(), Integer.parseInt(request.getParameter("idlibro")));
                     System.out.println("Se eliminó el libro");
                 } catch (SQLException ex) {
                     System.out.println("Error en la eliminacion del libro");

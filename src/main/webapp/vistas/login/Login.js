@@ -74,7 +74,8 @@ var Login = {
             url: 'http://localhost:8080/biblioSPA/ControladorLogin',
             method: 'POST',
             data: {
-                ACCION: "vistaAdmin"
+                ACCION: "vistaAdmin",
+                libros: {}
             }
         }).done(function () {
             $('div.container').html(arguments[0]);
