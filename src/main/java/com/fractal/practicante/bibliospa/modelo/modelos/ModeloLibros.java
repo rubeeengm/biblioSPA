@@ -16,9 +16,10 @@ public class ModeloLibros implements OperacionObtener<Libro>, OperacionObtenerTo
      * @param conexion Conexión a la base de datos que se utilizará.
      * @param libro Objeto Libro con todos sus atributos con información para poder insertar uno nuevo en la BD con ella.
      * @return Regresa false de no haberse completado y true de sí haberse realizado.
+     * @throws java.sql.SQLException
      */
     @Override
-    public boolean insertar(Connection conexion, Libro libro){
+    public boolean insertar(Connection conexion, Libro libro) throws SQLException {
         try{
             PreparedStatement consulta;
             consulta = conexion.prepareStatement("CALL USP_LIBROS_C (?, ?, ?, ?);");

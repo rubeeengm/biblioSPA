@@ -2,6 +2,8 @@ var Admin = {
     cargarModulo: function () {
        $('#buttonSalir').unbind('click').bind('click', function (event) {
             event.preventDefault();
+            Admin.peticionObtenerLibros();
+            Admin.peticionEliminarLibro();
             Admin.peticionVistaIndex();
         });
         $('#buttonRegistrarLibro').unbind('click').bind('click', function (event) {
@@ -37,6 +39,31 @@ var Admin = {
             $.getScript("vistas/formularios/RegistroLibro.js").done(function () {
                 RegistroLibro.cargarModulo();
             });
+        }).fail(function () {
+            alert("Error");
+        });
+    },
+    peticionObtenerLibros: function () {
+        $.ajax({
+            url: 'http://localhost:8080/biblioSPA/ControladorAdmin',
+            method: 'POST',
+            data: {
+                ACCION: "obtenerLibros"
+            }
+        }).done(function () {
+        }).fail(function () {
+            alert("Error");
+        });
+    },
+    peticionEliminarLibro: function () {
+        $.ajax({
+            url: 'http://localhost:8080/biblioSPA/ControladorAdmin',
+            method: 'POST',
+            data: {
+                ACCION: "eliminarLibro",
+                idlibro: 4
+            }
+        }).done(function () {
         }).fail(function () {
             alert("Error");
         });

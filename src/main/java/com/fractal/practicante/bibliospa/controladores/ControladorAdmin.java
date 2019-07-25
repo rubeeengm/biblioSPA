@@ -5,9 +5,16 @@
  */
 package com.fractal.practicante.bibliospa.controladores;
 
+import com.fractal.practicante.bibliospa.modelo.beans.Libro;
 import com.fractal.practicante.bibliospa.modelo.conexion.Conexion;
+import com.fractal.practicante.bibliospa.modelo.modelos.ModeloLibros;
+import com.fractal.practicante.bibliospa.modelo.modelos.ModeloLibrosDeAlumno;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,6 +46,9 @@ public class ControladorAdmin extends HttpServlet {
         RequestDispatcher  requestDispatcher = null;
         Conexion conexion = new Conexion();
         conexion.conectar();
+        ArrayList<Libro> libros = new ArrayList();
+        ModeloLibros modLibros = new ModeloLibros();
+        ModeloLibrosDeAlumno modLibrosDA = new ModeloLibrosDeAlumno();
         String mensajeAdmin = "";
         
         switch(accion){
@@ -53,9 +63,35 @@ public class ControladorAdmin extends HttpServlet {
                     "/vistas/admin/Admin.jsp"
                 );
             break;
-            
+            case "obtenerLibros":
+                try {
+                    libros = modLibros.obtenerTodos(conexion.getConexion());
+                    for (int i = 0; i < libros.size(); i++) {
+                        System.out.println("--------------------------");
+                        System.out.println(libros.get(i).getId());
+                        System.out.println(libros.get(i).getTitulo());
+                        System.out.println(libros.get(i).getAutor());
+                        System.out.println(libros.get(i).getNumPaginas());
+                        System.out.println(libros.get(i).getEstado());
+                        System.out.println(libros.get(i).getIsbn());
+                        System.out.println("--------------------------");
+                    }
+                } catch (SQLException ex) {
+                    System.out.println("Error en la obtencion de libros");
+                }
+                break;
+                
+            case "eliminarLibro":
+                try {
+                    modLibrosDA.eliminar(conexion.getConexion(), Integer.parseInt(request.getParameter("idlibro")));
+                    System.out.println("Se eliminó el libro");
+                } catch (SQLException ex) {
+                    System.out.println("Error en la eliminacion del libro");
+                }
+                break;
+                
             default:
-            break;
+                break;
         }
         
         try (PrintWriter out = response.getWriter()) {

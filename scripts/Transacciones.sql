@@ -1,4 +1,4 @@
-#Creacion procedimiento registro de Alumno y Usuario
+﻿#Creacion procedimiento registro de Alumno y Usuario
 #Se hizo un procedimiento que dentro lleva una transacción debido a que el registro
 #de alumnos y usuarios se realizan en conjunto, primero se insertan los datos en la
 #tabla Usuarios y luego en la tabla Alumnos, usando los datos que se recibieron como argumentos.
@@ -50,14 +50,14 @@ END $$
 DROP PROCEDURE IF EXISTS `USP_LIBROSDEALUMNO_C`;
 DELIMITER $$
 CREATE PROCEDURE `USP_LIBROSDEALUMNO_C`(
-    IN `PIDALUMNO` INT(11),
+    IN `PIDUSUARIO` INT(11),
     IN `PIDLIBRO` INT(11)
 )
 BEGIN
     START TRANSACTION;
         START TRANSACTION;
             INSERT INTO LIBROSDEALUMNO (IDALUMNO, IDLIBRO)
-            values(PIDALUMNO, PIDLIBRO);
+            values((SELECT A.ID FROM ALUMNOS A WHERE A.IDUSUARIO = PIDUSUARIO), PIDLIBRO);
         COMMIT;
         UPDATE LIBROS L SET L.ESTADO = '0' WHERE L.ID = PIDLIBRO;
     COMMIT;
