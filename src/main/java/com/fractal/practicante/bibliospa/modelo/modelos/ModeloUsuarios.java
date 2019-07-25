@@ -63,8 +63,10 @@ public class ModeloUsuarios implements OperacionObtener<Usuario> {
         consulta.setString(2, usuario.getContrasenia());
         ResultSet resultado = consulta.executeQuery();
         while (resultado.next()) {
-            usuario = new Usuario(Integer.parseInt(resultado.getString("ID")),
-                resultado.getString("USUARIO"), "",
+            usuario = new Usuario(Integer.parseInt(
+                resultado.getString("ID")),
+                resultado.getString("USUARIO"),
+                "",
                 resultado.getString("ADMIN").charAt(0));
         }
         return usuario;
