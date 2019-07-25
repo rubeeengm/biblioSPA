@@ -99,6 +99,12 @@ public class ControladorAlumno extends HttpServlet {
                 );
             break;
             
+            case "vistaAgregarLibrosAlumno":
+                requestDispatcher = getServletContext().getRequestDispatcher(
+                    "/vistas/alumnos/LibrosDisponibles.jsp"
+                );
+            break;
+            
             default:
                 System.out.println("Error de ruta");
             break;
