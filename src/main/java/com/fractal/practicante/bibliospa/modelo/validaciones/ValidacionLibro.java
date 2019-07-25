@@ -35,11 +35,37 @@ public class ValidacionLibro extends Validacion<Libro> {
     /**
      * Metodo que verifica si los atributos de un libro son nulos
      *
-     * @param objeto objeto al que se le analizan los atributos
+     * @param objeto objeto al que se le analizan los atributos.
      * @return devuelve true si el objeto no contiene atributos nulos
      */
     @Override
     public boolean validarNulos(Libro objeto) {
+        String titulo = objeto.getTitulo();
+        String autor = objeto.getAutor();
+        int numPaginas = objeto.getNumPaginas();
+        String isbn = objeto.getIsbn();
+
+        if (numPaginas < 1) {
+            System.out.println("Número de páginas inválido");
+
+            return false;
+        } else if (titulo == null || autor == null || isbn == null) {
+            System.out.println("Valor nulo");
+
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    /**
+     * Metodo que verifica si los atributos de un libro estan vacios.
+     *
+     * @param objeto    Objeto al que se le analizan los atributos.
+     * @return devuelve True si el objeto no contiene atributos nulos.
+     */
+    @Override
+    public boolean validarVacios(Libro objeto) {
         String titulo = objeto.getTitulo();
         String autor = objeto.getAutor();
         int numPaginas = objeto.getNumPaginas();
@@ -84,39 +110,29 @@ public class ValidacionLibro extends Validacion<Libro> {
         String autor = objeto.getAutor();
         int numPaginas = objeto.getNumPaginas();
         String isbn = objeto.getIsbn();
-
-        if (validarNulos(objeto)) {
-            if (validarExpresion(REGEX_TITULO, titulo)) {
-                if (validarExpresion(REGEX_AUTOR, autor)) {
-                    if (validarExpresion(REGEX_NUM_PAGINAS, numPaginas)) {
-                        if (validarExpresion(REGEX_ISBN, isbn)) {
-                            System.out.println("Datos del libro correctos");
-                            
-                            return true;
-                        } else {
-                            System.out.println("ISBN incorrecto");
-                            
-                            return false;
-                        }
-                    } else {
-                        System.out.println("Número de páginas incorrecto");
-                            
-                        return false;
-                    }
-                } else {
-                    System.out.println("Autor incorrecto");
-                            
-                    return false;
-                }
-            } else {
-                System.out.println("Título incorrecto");
-                            
-                return false;
-            }
-        } else {
-            System.out.println("Contiene datos nulos");
-                            
+        
+        if(!validarNulos(objeto)){
+            System.out.println("Datos nulos");
             return false;
+        } else if(!validarVacios(objeto)){
+            System.out.println("Datos vacios");
+            return false;
+        } else if(!validarExpresion(REGEX_TITULO, titulo)){
+            System.out.println("Titulo erroneo");
+            return false;
+        } else if(validarExpresion(REGEX_AUTOR, autor)){
+            System.out.println("Autor erroneo");
+            return false;
+        } else if(validarExpresion(REGEX_NUM_PAGINAS, numPaginas)){
+            System.out.println("Numero de paginas erroneo");
+            return false;
+        } else if(validarExpresion(REGEX_ISBN, isbn)){
+            System.out.println("ISBN erroneo");
+            return false;
+        } else{
+            System.out.println("Datos correctos");
+            return true;
         }
     }
+    
 }

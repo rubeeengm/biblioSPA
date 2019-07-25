@@ -27,13 +27,13 @@ public class ValidacionAlumno extends Validacion<Alumno>{
     
     /**
      * Metodo reescrito heredado por Validacion, valida que los atributos del
-     * alumno no sean nulos.
+     * alumno no esten vacíos.
      * @param alumno    Objeto al que se le validarán sus atributos
      * @return          Devuelve un booleano que indica si todos los atributos 
      *                  cumplieron con la condición de no ser nulos.
      */
     @Override
-    public boolean validarNulos(Alumno alumno) {
+    public boolean validarVacios(Alumno alumno) {
         String nombre = alumno.getNombre();
         String apellidoPaterno = alumno.getApellidoPaterno();
         String apellidoMaterno = alumno.getApellidoMaterno();
@@ -52,6 +52,31 @@ public class ValidacionAlumno extends Validacion<Alumno>{
     }
     
     /**
+     * Metodo reescrito heredado por Validacion, valida que los atributos del
+     * alumno no sean nulos.
+     * @param alumno    Objeto al que se le validarán sus atributos
+     * @return          Devuelve un booleano que indica si todos los atributos 
+     *                  cumplieron con la condición de no ser nulos.
+     */
+    @Override
+    public boolean validarNulos(Alumno alumno) {
+        String nombre = alumno.getNombre();
+        String apellidoPaterno = alumno.getApellidoPaterno();
+        String apellidoMaterno = alumno.getApellidoMaterno();
+        String telefono = alumno.getTelefono();
+        String dni = alumno.getDni();
+        
+        if(nombre == null || apellidoPaterno == null || 
+                apellidoMaterno == null || telefono == null|| dni == null){
+            
+            System.out.println("Datos nulos");
+            return false;
+        } else{
+            return true;
+        }  
+    }
+    
+    /**
      * Metodo reescrito heredado por Validacion, corrobora que todos los 
      * atributos hayan sido validados con exito, regresa un booleano que lo 
      * confirma.
@@ -61,42 +86,32 @@ public class ValidacionAlumno extends Validacion<Alumno>{
      */
     @Override
     public boolean validacionTotal(Alumno alumno) {
-        if(validarNulos(alumno)){
-            if(validarExpresion(REGEX_NOMBRE, 
-                    alumno.getNombre())){
-                if(validarExpresion(REGEX_APELLIDOPAT, 
-                        alumno.getApellidoPaterno())){
-                    if(validarExpresion(REGEX_APELLIDOMAT, 
-                            alumno.getApellidoMaterno())){
-                        if(validarExpresion(REGEX_TELEFONO, 
-                                alumno.getTelefono())){
-                            if(validarExpresion(REGEX_DNI, 
-                                    alumno.getDni())){
-                                System.out.println("Alumno validado con éxito");
-                                return true;
-                            } else{
-                                System.out.println("Error en el dni");
-                                return false;
-                            }
-                        } else {
-                            System.out.println("Error en el telefono");
-                            return false;
-                        }
-                    } else {
-                        System.out.println("Error en el AM");
-                        return false;
-                    }
-                } else {
-                    System.out.println("Error en el AP");
-                    return false;
-                }
-            } else {
-                System.out.println("Error en el Nombre");
-                return false;
-            }
-        } else {
-            System.out.println("Valores nulos");
+        if(!validarNulos(alumno)){
+            System.out.println("Datos nulos");
             return false;
-        }
+        } else if(!validarVacios(alumno)){
+            System.out.println("Datos vacíos");
+            return false;
+        } else if(!validarExpresion(REGEX_NOMBRE, alumno.getNombre())){
+            System.out.println("Nombre erroneo");
+            return false;
+        } else if(!validarExpresion(REGEX_APELLIDOPAT, 
+                alumno.getApellidoPaterno())){
+            System.out.println("Apellido paterno erroneo");
+            return false;
+        } else if(!validarExpresion(REGEX_APELLIDOMAT, 
+                alumno.getApellidoMaterno())){
+            System.out.println("Apellido materno erroneo");
+            return false;
+        } else if(!validarExpresion(REGEX_TELEFONO, alumno.getTelefono())){
+            System.out.println("Telefono erroneo");
+            return false;
+        } else if(!validarExpresion(REGEX_DNI, alumno.getDni())){
+            System.out.println("Dni erroneo");
+            return false;
+        } else{
+            System.out.println("Datos correctos");
+            return true;
+        }        
     }
 }
