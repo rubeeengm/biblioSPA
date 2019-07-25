@@ -37,7 +37,8 @@ public class ControladorLogin extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, 
+            HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
@@ -65,8 +66,13 @@ public class ControladorLogin extends HttpServlet {
                 
                 if (vu.validarNulos(objetoUsuario)) {
                     try {
-                        objetoUsuario = mu.verificarLogin(conexion.getConexion(), objetoUsuario);
+                        objetoUsuario = mu.verificarLogin(
+                                conexion.getConexion(), 
+                                objetoUsuario
+                        );
+                        
                         conexion.desconectar();
+                        
                         if(objetoUsuario.getId() == 0) {
                             mensajeLogin = "LI";
                         } else if(objetoUsuario.getAdmin() == '1') {

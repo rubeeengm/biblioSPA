@@ -5,16 +5,17 @@
     Nota       : SI EL ADMIN ES EL QUE CONSULTA ESTA PAGINA, ENTONCES EL BOTON
                  REGRESAR LO TIENE QUE MANDAR A LA VISTA PRINCIPAL DEL ALUMNO
 --%>
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <h1>Libros Registrados</h1>
 
 <table class="table">
     <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">T�tulo</th>
+            <th scope="col">Titulo</th>
             <th scope="col">Autor</th>
             <th scope="col">ISBN</th>
-            <th scope="col">N�mero de p�ginas</th>
+            <th scope="col">Numero de paginas</th>
             <th scope="col">Status</th>
         </tr>
     </thead>
@@ -31,7 +32,7 @@
 
         <tr>
             <th scope="row">2</th>
-            <td>F�sica 1</td>
+            <td>Fisica 1</td>
             <td>Marco Lopez</td>
             <td>12-154-12365-15</td>
             <td>110</td>
