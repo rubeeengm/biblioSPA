@@ -59,7 +59,8 @@ public class Libro {
      * @param estado        Estado del libro
      * @param isbn          ISBN del libro
      */
-    public Libro(int id, String titulo, String autor, int numPaginas, char estado, String isbn) {
+    public Libro(int id, String titulo, String autor, int numPaginas, 
+            char estado, String isbn) {
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;

@@ -33,7 +33,7 @@ public class Alumno {
     public Alumno() {}
     
     /**
-     * 
+     * Constructor Alumno, es usado en la vista del registro del alumno.
      * @param nombre            Nombre del alumno
      * @param apellidoPaterno   Apellido paterno del alumno
      * @param apellidoMaterno   Apellido materno del alumno
@@ -51,27 +51,7 @@ public class Alumno {
     }
     
     /**
-     * 
-     * @param nombre            Nombre del alumno
-     * @param apellidoPaterno   Apellido paterno del alumno
-     * @param apellidoMaterno   Apellido materno del alumno
-     * @param telefono          Número teléfonico del alumno
-     * @param dni               Documento nacional de identidad
-     * @param idUsuario         Identificador del usuario
-     */
-    public Alumno(String nombre, String apellidoPaterno, 
-                  String apellidoMaterno, String telefono, 
-                  String dni, int idUsuario) {
-        this.nombre = nombre;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
-        this.telefono = telefono;
-        this.dni = dni;
-        this.idUsuario = idUsuario;
-    }
-    
-    /**
-     * 
+     * Constructor Alumno, usado para la busqueda de un alumno en la BD.
      * @param id                Id del alumno
      * @param nombre            Nombre del alumno
      * @param apellidoPaterno   Apellido paterno del alumno
