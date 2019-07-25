@@ -6,6 +6,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Clase que nos permite llenar las tablas de usuario y alumno mediante una 
+ * transacción.
+ * @author Marco Lopez
+ */
 public class ModeloTransacciones {
 
     /**
@@ -13,13 +18,13 @@ public class ModeloTransacciones {
      * procedimiento adecuado de la BD para insertar un nuevo Alumno en la tabla
      * de la BD.
      *
-     * @param conexion Conexión a la base de datos que se utilizará.
-     * @param alumno Objeto Alumno con todos sus atributos con información para
-     * poder insertar uno nuevo en la BD con ella.
-     * @param usuario Objeto Usuario con todos sus atributos con información
-     * para poder insertar uno nuevo en la BD con ella.
-     * @return Regresa false de no haberse completado y true de sí haberse
-     * realizado.
+     * @param conexion  Conexión a la base de datos que se utilizará.
+     * @param alumno    Objeto Alumno con todos sus atributos con información 
+     *                  para poder insertar uno nuevo en la BD con ella.
+     * @param usuario   Objeto Usuario con todos sus atributos con información
+     *                  para poder insertar uno nuevo en la BD con ella.
+     * @return          Regresa false de no haberse completado y true de sí 
+     *                  haberse realizado.
      */
     public boolean insertarAlumno(Connection conexion, Alumno alumno, 
             Usuario usuario) {
