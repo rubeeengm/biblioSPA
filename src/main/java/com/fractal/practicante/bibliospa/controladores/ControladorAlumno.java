@@ -100,6 +100,10 @@ public class ControladorAlumno extends HttpServlet {
                 );
             break;
             
+            case "peticionAgregarLibrosAlumno":
+                
+            break;
+            
             default:
                 System.out.println("Error de ruta");
             break;
