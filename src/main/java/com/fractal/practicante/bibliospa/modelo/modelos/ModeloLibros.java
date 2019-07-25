@@ -33,7 +33,7 @@ public class ModeloLibros implements OperacionObtener<Libro>,
      *                  haberse realizado.
      */
     @Override
-    public boolean insertar(Connection conexion, Libro libro){
+    public boolean insertar(Connection conexion, Libro libro) throws SQLException {
         try{
             PreparedStatement consulta;
             consulta = conexion.prepareStatement(

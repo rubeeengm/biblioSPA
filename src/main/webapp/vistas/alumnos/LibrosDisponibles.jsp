@@ -26,7 +26,7 @@
             <td>12-154-12365-12</td>
             <td>255</td>
             <td>
-                <input type="checkbox"></input>
+                <button id="algo" class="btn btn-success">Agregar</button>
             </td>
         </tr>
         
@@ -37,13 +37,12 @@
             <td>90-234-15675-15</td>
             <td>110</td>
             <td>
-                <input type="checkbox"></input>
+                <button id="algo" class="btn btn-success">Agregar</button>
             </td>
         </tr>
     </tbody>                       
 </table>
 
 <div class="row">
-    <button id="agregarSelecciones" class="btn btn-primary">Agregar selecciones</button>
-    <button id="cancelar" class="btn btn-warning">Regresar</button
+    <button id="cancelar" class="btn btn-warning">Regresar</button>
 </div>
