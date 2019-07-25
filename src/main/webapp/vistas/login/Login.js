@@ -64,6 +64,12 @@ var Login = {
                     case "LA":
                         Login.peticionVistaAdmin();
                         break;
+                    case "Campos nulos":
+                        alert("Tu registro tiene campos nulos");
+                        break;
+                    case "Campos vacios":
+                        alert("Tu registro tiene campos vacios");
+                        break;
                 }
             }).fail(function () {
                 alert("Error");

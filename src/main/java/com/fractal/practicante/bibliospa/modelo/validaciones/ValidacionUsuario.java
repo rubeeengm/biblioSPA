@@ -27,8 +27,26 @@ public class ValidacionUsuario extends Validacion<Usuario>{
      */
     @Override
     public boolean validarNulos(Usuario usuario) {
-        if(usuario.getNombreUsuario().equals("") || usuario.getContrasenia().equals("")){
+        if(usuario.getNombreUsuario() == null || 
+                usuario.getContrasenia() == null){
             System.out.println("Datos nulos");
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    /**
+     * Metodo reescrito heredado de la clase Validacion, comprueba que los
+     * atributos no esten vacíos.
+     * @param usuario   Objeto al que se le validaran sus atributos.
+     * @return          Booleano que confirma si los atributos son vacios o no.
+     */
+    @Override
+    public boolean validarVacios(Usuario usuario) {
+        if(usuario.getNombreUsuario().equals("") || 
+                usuario.getContrasenia().equals("")){
+            System.out.println("Datos vacíos");
             return false;
         } else {
             return true;
@@ -44,22 +62,23 @@ public class ValidacionUsuario extends Validacion<Usuario>{
      */
     @Override
     public boolean validacionTotal(Usuario usuario) {
-        if(validarNulos(usuario)){
-            if(validarExpresion(REGEX_NOMBREUSUARIO, usuario.getNombreUsuario())){
-                if(validarExpresion(REGEX_CONTRASENIA, usuario.getContrasenia())){
-                    System.out.println("Usuario validado con éxito");
-                    return true;
-                } else {
-                    System.out.println("Error en la contraeña");
-                    return false;
-                }
-            } else {
-                System.out.println("Error en el nombre de ususario");
-                return false;
-            }
-        } else{
+        if(!validarNulos(usuario)){
             System.out.println("Datos nulos");
             return false;
+        } else if(validarVacios(usuario)){
+            System.out.println("Datos vacíos");
+            return false;
+        } else if(validarExpresion(REGEX_NOMBREUSUARIO, 
+                usuario.getNombreUsuario())){
+            System.out.println("Nombre de usuario erroneo");
+            return false;
+        } else if(validarExpresion(REGEX_CONTRASENIA, 
+                usuario.getContrasenia())){
+            System.out.println("Contraseña incorrecta");
+            return false;
+        } else {
+            System.out.println("Datos correctos");
+            return true;
         }
-    }
+    }    
 }
