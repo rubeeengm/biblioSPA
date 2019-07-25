@@ -68,7 +68,7 @@ public class ModeloLibrosDeAlumno implements OperacionObtener<LibroDeAlumno>, Op
      * atributos de un LibroDeAlumno en particular.
      *
      * @param conexion Conexión a la base de datos que se utilizará.
-     * @param id Entero que se usará en la búsqueda de un Alumno por su ID en la
+     * @param id Entero que se usará en la búsqueda de un Libro por su ID en la
      * BD.
      * @return Regresa false de no haberse completado y true de sí haberse
      * realizado.
