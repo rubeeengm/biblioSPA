@@ -1,47 +1,51 @@
 <%-- 
     Document   : librosAlumno
     Created on : 18/07/2019, 01:29:28 PM
-    Author     : Melissa Gpe. Pï¿½rez Cabrera <perezc.melissa@gmail.com>
+    Author     : Melissa Gpe. PÃ¯Â¿Â½rez Cabrera <perezc.melissa@gmail.com>
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="java.util.ArrayList"%>
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
-<h1>Libros del alumno Jorge </h1>
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Titulo</th>
-            <th scope="col">Autor</th>
-            <th scope="col">ISBN</th>
-            <th scope="col">Numero de paginas</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
+<%@ page import="com.fractal.practicante.bibliospa.modelo.beans.Libro" %>
 
-    <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Matematicas 1</td>
-            <td>Jorge Hernandez</td>
-            <td>12-154-12365-12</td>
-            <td>255</td>
-            <td>
-                <a class="btn btn-danger" href="#">Borrar libro</a>
-            </td>
-        </tr>
+<h1>Libros del alumno</h1>
+<%
+    ArrayList<Libro> libros = (ArrayList<Libro>)request.getAttribute("listaLibrosAlumno");
+    request.setAttribute("libros", libros);
+%>
 
-        <tr>
-            <th scope="row">2</th>
-            <td>Fisica 1</td>
-            <td>Marco Lopez</td>
-            <td>12-154-12365-15</td>
-            <td>110</td>
-            <td>
-                <a class="btn btn-danger" href="#">Borrar libro</a>
-            </td>
-        </tr>
-    </tbody>                       
-</table>
+<c:choose>
+    <c:when test="${libros.size() > 0}">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Titulo</th>
+                    <th scope="col">Autor</th>
+                    <th scope="col">Numero de paginas</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
 
+            <tbody>
+                <c:forEach var="libro" items="${libros}">
+                    <tr>
+                        <td>${libro.getTitulo()}</td>
+                        <td>${libro.getAutor()}</td>
+                        <td>${libro.getNumPaginas()}</td>
+                        <td>
+                            <button class="btn btn-danger">Borrar Libro</button>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>                       
+        </table>
+    </c:when>
+
+    <c:when test="${libros.size() < 1}">
+        <img src="assets/img/imagen.png">
+    </c:when>
+</c:choose>
+        
 <div class="row">
     <button id="agregarLibros" class="btn btn-success">Agregar Libros</button>
     <button id="verListaLibrosRegistrados" class="btn btn-primary">Ver lista de libros</button>

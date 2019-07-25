@@ -93,6 +93,44 @@ public class ModeloLibros implements OperacionObtener<Libro>,
      *                  Libros registrados en la BD con todos sus datos.
      * @throws SQLException 
      */
+    
+    public ArrayList<Libro> obtenerLibrosAlumno(Connection conexion, int idUsuario) throws SQLException{
+        ArrayList<Libro> libros = new ArrayList();
+        PreparedStatement consulta = conexion.prepareStatement("CALL USP_LIBROS_USUARIO_R_TODOS (?);");
+        consulta.setInt(1,idUsuario);
+        ResultSet resultado = consulta.executeQuery();
+        
+        while(resultado.next()){
+            Libro libro = null;
+            libro = new Libro(
+                            resultado.getString("TITULO"),
+                            resultado.getString("AUTOR"),
+                            resultado.getInt("NUMPAGINAS")
+                        );
+            libros.add(libro);
+        }
+        return libros;
+    }
+    
+    /**
+     * Método que al recibir una conexión, manda a llamar al procedimiento adecuado de la BD para regresar un ArrayList con todos los Libros registrados en la BD.
+     * @param conexion Conexión a la base de datos que se utilizará.
+     * @return ArrayList de objetos de tipo Libro igual al número de Libros registrados en la BD con todos sus datos.
+     * @throws SQLException 
+     */
+    public boolean eliminar(Connection conexion, int id) throws SQLException{
+        try{
+            PreparedStatement consulta;
+            consulta = conexion.prepareStatement("CALL USP_LIBROS_D (?);");
+            consulta.setInt(1, id);
+            consulta.executeUpdate();
+            return true;
+        }catch(SQLException error){
+            return false;
+        }    
+        
+    }
+          
     @Override
     public ArrayList<Libro> obtenerTodos(Connection conexion) 
             throws SQLException{

@@ -5,13 +5,16 @@
  */
 package com.fractal.practicante.bibliospa.controladores;
 
+import com.fractal.practicante.bibliospa.modelo.beans.Libro;
 import com.fractal.practicante.bibliospa.modelo.beans.Usuario;
 import com.fractal.practicante.bibliospa.modelo.conexion.Conexion;
+import com.fractal.practicante.bibliospa.modelo.modelos.ModeloLibros;
 import com.fractal.practicante.bibliospa.modelo.modelos.ModeloUsuarios;
 import com.fractal.practicante.bibliospa.modelo.validaciones.ValidacionUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -20,6 +23,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -44,6 +48,7 @@ public class ControladorLogin extends HttpServlet {
         
         String accion = request.getParameter("ACCION");
         RequestDispatcher  requestDispatcher = null;
+        HttpSession session=request.getSession();
         Conexion conexion = new Conexion();
         conexion.conectar();
         String mensajeLogin = "";
@@ -58,13 +63,22 @@ public class ControladorLogin extends HttpServlet {
             case "vistaLogin":
                 requestDispatcher = getServletContext().getRequestDispatcher(
                     "/vistas/login/Login.jsp"
-                );
+                ); 
+                session.setAttribute("Admin",'0');
             break;
             
             case "vistaAdmin":
                 requestDispatcher = getServletContext().getRequestDispatcher(
                     "/vistas/admin/Admin.jsp"
                 );
+                ArrayList<Libro> libros = new ArrayList();
+                ModeloLibros ml = new ModeloLibros();
+                try {
+                    libros = ml.obtenerTodos(conexion.getConexion());
+                } catch (SQLException ex) {
+                    System.out.println("Error al recuperar todos los libros");
+                }
+                request.setAttribute("libros", libros);
                 break;
             
             case "login":
@@ -78,7 +92,6 @@ public class ControladorLogin extends HttpServlet {
                 
                 if (vu.validarNulos(objetoUsuario)) {
                     if(vu.validarVacios(objetoUsuario)){
-                        
                         try {
                             objetoUsuario = mu.verificarLogin(
                                     conexion.getConexion(), 
@@ -90,8 +103,11 @@ public class ControladorLogin extends HttpServlet {
                                 mensajeLogin = "LI";
                             } else if(objetoUsuario.getAdmin() == '1') {
                                 mensajeLogin = "LA";
+                                session.setAttribute("Admin",'1');
                             } else {
                                 mensajeLogin = "LC";
+                                HttpSession misession = request.getSession(true);
+                                misession.setAttribute("idUsuario", objetoUsuario.getId());
                             }
                         } catch (SQLException ex) {
                             Logger.getLogger(ControladorLogin.class.getName()).
