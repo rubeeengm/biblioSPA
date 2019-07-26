@@ -22,8 +22,9 @@ var RegistroLibro = {
                 }
             }).done(function () {
                 RegistroLibro.peticionVistaAdmin();
+                alert("Libro registrado");
             }).fail(function () {
-                alert("Error");
+                alert("Verifica tus datos");
             });
     },
     peticionVistaAdmin: function () {
