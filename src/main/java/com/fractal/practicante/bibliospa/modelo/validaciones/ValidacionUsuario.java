@@ -65,20 +65,19 @@ public class ValidacionUsuario extends Validacion<Usuario>{
         if(!validarNulos(usuario)){
             System.out.println("Datos nulos");
             return false;
-        } else if(validarVacios(usuario)){
+        } else if(!validarVacios(usuario)){
             System.out.println("Datos vacíos");
             return false;
-        } else if(validarExpresion(REGEX_NOMBREUSUARIO, 
+        } else if(!validarExpresion(REGEX_NOMBREUSUARIO, 
                 usuario.getNombreUsuario())){
             System.out.println("Nombre de usuario erroneo");
             return false;
-        } else if(validarExpresion(REGEX_CONTRASENIA, 
+        } else if(!validarExpresion(REGEX_CONTRASENIA, 
                 usuario.getContrasenia())){
             System.out.println("Contraseña incorrecta");
             return false;
-        } else {
-            System.out.println("Datos correctos");
-            return true;
         }
+        System.out.println("Datos correctos Usuario");
+        return true;
     }    
 }

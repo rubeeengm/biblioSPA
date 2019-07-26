@@ -45,18 +45,26 @@ var RegistroAlumno = {
         })
         .done(function () {
             switch (arguments[0]) {
-                    case "success":
-                        RegistroAlumno.peticionVistaLogin();
-                        alert('Te registraste correctamente');
-                    break;
+                
+                case "exito":
+                    RegistroAlumno.peticionVistaLogin();
+                    alert('Te registraste correctamente');
+                break;
 
-                    case "error_data":
-                        alert("Los datos en los campos no coinciden");
-                    break;
+                case "datos_erroneos":
+                    alert("Los datos en los campos no coinciden");
+                break;
+
+                case "datos_nulos":
+                    alert("Peticion con datos nulos");
+                break;
+
+                case "datos_vacios":
+                    alert("Procura llenar los campos");
+                break;
                     
-                    case "empty_data":
-                        alert("Procura llenar los campos");
-                    break;
+                default:
+                    alert("Error general");
                 }
         })
         .fail(function () {
