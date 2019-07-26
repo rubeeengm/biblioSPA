@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.fractal.practicante.bibliospa.controladores;
 
 import com.fractal.practicante.bibliospa.modelo.beans.Libro;
@@ -27,7 +22,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author user
+ * Ruben Gustavo Garcia Malaga
  */
 @WebServlet(name = "ControladorLogin", urlPatterns = {"/ControladorLogin"})
 public class ControladorLogin extends HttpServlet {
@@ -106,8 +101,11 @@ public class ControladorLogin extends HttpServlet {
                                 session.setAttribute("Admin",'1');
                             } else {
                                 mensajeLogin = "LC";
-                                HttpSession misession = request.getSession(true);
-                                misession.setAttribute("idUsuario", objetoUsuario.getId());
+                                HttpSession misession = 
+                                        request.getSession(true);
+                                misession.setAttribute(
+                                        "idUsuario", objetoUsuario.getId()
+                                );
                             }
                         } catch (SQLException ex) {
                             Logger.getLogger(ControladorLogin.class.getName()).

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.fractal.practicante.bibliospa.controladores;
 
 import com.fractal.practicante.bibliospa.modelo.beans.Libro;
@@ -12,8 +7,6 @@ import com.fractal.practicante.bibliospa.modelo.validaciones.ValidacionLibro;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,10 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author user
- */
 @WebServlet(name = "ControladorLibro", urlPatterns = {"/ControladorLibro"})
 public class ControladorLibro extends HttpServlet {
 
@@ -44,42 +33,49 @@ public class ControladorLibro extends HttpServlet {
 
         String accion = request.getParameter("ACCION");
 
-        RequestDispatcher  requestDispatcher = null;
-        HttpSession session=request.getSession();
+        RequestDispatcher requestDispatcher = null;
+        HttpSession session = request.getSession();
         Conexion conexion = new Conexion();
         conexion.conectar();
         String mensajeLibro = "";
-      
-        if(session.getAttribute("Admin").equals('1')){
-            switch(accion){
+
+        if (session.getAttribute("Admin").equals('1')) {
+            switch (accion) {
                 case "registro":
                     String titulo = request.getParameter("titulo");
                     String autor = request.getParameter("autor");
                     String isbn = request.getParameter("isbn");
-                    int numPaginas = Integer.parseInt(request.getParameter("numPaginas"));
-                    Libro objetoLibro = new Libro(titulo, autor, numPaginas, isbn);
+                    int numPaginas = Integer.parseInt(
+                            request.getParameter("numPaginas")
+                    );
+                    
+                    Libro objetoLibro = new Libro(
+                            titulo, autor, numPaginas, isbn
+                    );
 
                     ValidacionLibro valLibro = new ValidacionLibro();
                     ModeloLibros modLibros = new ModeloLibros();
 
-                    if(valLibro.validacionTotal(objetoLibro)){
-                      try {
-                        modLibros.insertar(conexion.getConexion(), objetoLibro);
-                      } catch (SQLException ex) {
-                        System.out.println("Error al insertar libro");
-                      }
-                      conexion.desconectar();
-                    }else{
-                      mensajeLibro = "Campos vacíos";
+                    if (valLibro.validacionTotal(objetoLibro)) {
+                        try {
+                            modLibros.insertar(
+                                conexion.getConexion(), objetoLibro
+                            );
+                        } catch (SQLException ex) {
+                            System.out.println("Error al insertar libro");
+                        }
+                        conexion.desconectar();
+                    } else {
+                        mensajeLibro = "Campos vacíos";
                     }
-                break;
+                    break;
 
                 default:
-                break;
+                    break;
             }
 
             try (PrintWriter out = response.getWriter()) {
-                if(requestDispatcher != null){
+                if (requestDispatcher != null) {
                     requestDispatcher.forward(request, response);
                 }
                 out.print(mensajeLibro);

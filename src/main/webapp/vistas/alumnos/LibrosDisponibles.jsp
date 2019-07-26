@@ -14,8 +14,8 @@
     ArrayList<Libro> libros = (ArrayList<Libro>) request.getAttribute("listaLibrosDisponibles");
     request.setAttribute("libros", libros);
 %>
-<table class="table">
-    <thead>
+<table class="table table-striped"">
+    <thead class="thead-dark">
         <tr>
             <th scope="col">Título</th>
             <th scope="col">Autor</th>

@@ -4,10 +4,14 @@ var Admin = {
             event.preventDefault();
             Admin.peticionVistaIndex();
         });
-        $('#buttonRegistrarLibro').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            Admin.peticionVistaRegistroLibro();
-        });
+        
+        $('#buttonRegistrarLibro').unbind('click').bind('click', 
+            function (event) {
+                event.preventDefault();
+                Admin.peticionVistaRegistroLibro();
+            }
+        );
+
         $('.btn-danger').unbind('click').bind('click', function (event) {
             event.preventDefault();
             Admin.peticionEliminarLibro($(this).val());

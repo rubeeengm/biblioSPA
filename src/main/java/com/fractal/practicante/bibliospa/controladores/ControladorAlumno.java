@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.fractal.practicante.bibliospa.controladores;
 
 import com.fractal.practicante.bibliospa.modelo.beans.Alumno;
@@ -10,7 +5,6 @@ import com.fractal.practicante.bibliospa.modelo.beans.Libro;
 import com.fractal.practicante.bibliospa.modelo.beans.LibroDeAlumno;
 import com.fractal.practicante.bibliospa.modelo.beans.Usuario;
 import com.fractal.practicante.bibliospa.modelo.conexion.Conexion;
-import com.fractal.practicante.bibliospa.modelo.modelos.ModeloAlumnos;
 import com.fractal.practicante.bibliospa.modelo.modelos.ModeloLibros;
 import com.fractal.practicante.bibliospa.modelo.modelos.ModeloLibrosDeAlumno;
 import com.fractal.practicante.bibliospa.modelo.modelos.ModeloTransacciones;
@@ -31,10 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author Melissa Gpe. Pérez Cabrera <perezc.melissa@gmail.com>
- */
 @WebServlet(name = "ControladorAlumno", urlPatterns = {"/ControladorAlumno"})
 public class ControladorAlumno extends HttpServlet {
 
@@ -47,7 +37,8 @@ public class ControladorAlumno extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, 
+            HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
@@ -93,7 +84,11 @@ public class ControladorAlumno extends HttpServlet {
                     if (valAl.validacionTotal(alumnoObjeto)
                             && valUs.validacionTotal(usuarioObjeto)) {
 
-                        mt.insertarAlumno(conexion.getConexion(), alumnoObjeto, usuarioObjeto);
+                        mt.insertarAlumno(
+                            conexion.getConexion(), 
+                            alumnoObjeto, 
+                            usuarioObjeto
+                        );
                         conexion.desconectar();
                         mensajeControladorAlumno = "success";
 
@@ -112,7 +107,11 @@ public class ControladorAlumno extends HttpServlet {
                 try {
                     librosAlumno = ml.obtenerTodos(conexion.getConexion());
                 } catch (SQLException ex) {
-                    Logger.getLogger(ControladorAlumno.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(
+                            ControladorAlumno.class.getName()
+                    ).log(
+                        Level.SEVERE, null, ex
+                    );
                 }
 
                 conexion.desconectar();
@@ -178,7 +177,12 @@ public class ControladorAlumno extends HttpServlet {
                 idUsuarioSession = (int) misession.getAttribute("idUsuario");
                 idLibro = Integer.parseInt(request.getParameter("idLibro"));
                 mla = new ModeloLibrosDeAlumno();
-                mla.insertar(conexion.getConexion(), new LibroDeAlumno(idUsuarioSession, idLibro));
+                
+                mla.insertar(
+                    conexion.getConexion(), 
+                    new LibroDeAlumno(idUsuarioSession, idLibro)
+                );
+                
                 conexion.desconectar();
             break;
             
@@ -189,7 +193,11 @@ public class ControladorAlumno extends HttpServlet {
                 try {
                     mla.eliminar(conexion.getConexion(), idLibro);
                 } catch (SQLException ex) {
-                    Logger.getLogger(ControladorAlumno.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(
+                        ControladorAlumno.class.getName()
+                    ).log(
+                        Level.SEVERE, null, ex
+                    );
                 }
                 
                 conexion.desconectar();

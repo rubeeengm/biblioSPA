@@ -16,7 +16,7 @@
     request.setAttribute("libros", libros);
 %>
 
-<table class="table">
+<table class="table table-striped"">
     <thead class="thead-dark">
         <tr>
             <th scope="col">Titulo</th>
