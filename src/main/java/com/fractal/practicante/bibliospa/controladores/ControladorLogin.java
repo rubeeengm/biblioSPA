@@ -28,40 +28,40 @@ import javax.servlet.http.HttpSession;
 public class ControladorLogin extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and
-     * <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, 
-            HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request,
+        HttpServletResponse response)
+        throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         String accion = request.getParameter("ACCION");
-        RequestDispatcher  requestDispatcher = null;
-        HttpSession session=request.getSession();
+        RequestDispatcher requestDispatcher = null;
+        HttpSession session = request.getSession();
         Conexion conexion = new Conexion();
         conexion.conectar();
         String mensajeLogin = "";
-        
-        switch(accion) {
+
+        switch (accion) {
             case "vistaRegistrar":
                 requestDispatcher = getServletContext().getRequestDispatcher(
                     "/vistas/formularios/RegistroAlumno.jsp"
                 );
-            break;
-            
+                break;
+
             case "vistaLogin":
                 requestDispatcher = getServletContext().getRequestDispatcher(
                     "/vistas/login/Login.jsp"
-                ); 
-                session.setAttribute("Admin",'0');
-            break;
-            
+                );
+                session.setAttribute("Admin", '0');
+                break;
+
             case "vistaAdmin":
                 requestDispatcher = getServletContext().getRequestDispatcher(
                     "/vistas/admin/Admin.jsp"
@@ -75,58 +75,58 @@ public class ControladorLogin extends HttpServlet {
                 }
                 request.setAttribute("libros", libros);
                 break;
-            
+
             case "login":
                 String usuario = request.getParameter("usuario");
                 String contrasenia = request.getParameter("contrasenia");
-                
+
                 Usuario objetoUsuario = new Usuario(usuario, contrasenia);
-                
+
                 ValidacionUsuario vu = new ValidacionUsuario();
                 ModeloUsuarios mu = new ModeloUsuarios();
-                
+
                 if (vu.validarNulos(objetoUsuario)) {
-                    if(vu.validarVacios(objetoUsuario)){
+                    if (vu.validarVacios(objetoUsuario)) {
                         try {
                             objetoUsuario = mu.verificarLogin(
-                                    conexion.getConexion(), 
-                                    objetoUsuario
-                            );                        
+                                conexion.getConexion(),
+                                objetoUsuario
+                            );
                             conexion.desconectar();
 
-                            if(objetoUsuario.getId() == 0) {
+                            if (objetoUsuario.getId() == 0) {
                                 mensajeLogin = "LI";
-                            } else if(objetoUsuario.getAdmin() == '1') {
+                            } else if (objetoUsuario.getAdmin() == '1') {
                                 mensajeLogin = "LA";
-                                session.setAttribute("Admin",'1');
+                                session.setAttribute("Admin", '1');
                             } else {
                                 mensajeLogin = "LC";
-                                HttpSession misession = 
-                                        request.getSession(true);
+                                HttpSession misession
+                                    = request.getSession(true);
                                 misession.setAttribute(
-                                        "idUsuario", objetoUsuario.getId()
+                                    "idUsuario", objetoUsuario.getId()
                                 );
                             }
                         } catch (SQLException ex) {
                             Logger.getLogger(ControladorLogin.class.getName()).
                                 log(Level.SEVERE, null, ex
-                            );
+                                );
                         }
                     } else {
                         mensajeLogin = "Campos vacios";
-                    }    
+                    }
                 } else {
                     mensajeLogin = "Campos nulos";
                 }
-            break;
-            
+                break;
+
             default:
                 System.out.println("Error de ruta");
-            break;
+                break;
         }
-        
+
         try (PrintWriter out = response.getWriter()) {
-            if(requestDispatcher != null){
+            if (requestDispatcher != null) {
                 requestDispatcher.forward(request, response);
             }
             out.print(mensajeLogin);
@@ -144,7 +144,7 @@ public class ControladorLogin extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -158,7 +158,7 @@ public class ControladorLogin extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
         processRequest(request, response);
     }
 

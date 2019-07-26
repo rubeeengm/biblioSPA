@@ -28,8 +28,8 @@ public class ControladorAdmin extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request,
-            HttpServletResponse response)
-            throws ServletException, IOException {
+        HttpServletResponse response)
+        throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
         String accion = request.getParameter("ACCION");
@@ -45,24 +45,24 @@ public class ControladorAdmin extends HttpServlet {
             switch (accion) {
                 case "vistaRegistroLibro":
                     requestDispatcher
-                            = getServletContext().getRequestDispatcher(
-                                    "/vistas/formularios/RegistroLibro.jsp"
-                            );
+                        = getServletContext().getRequestDispatcher(
+                            "/vistas/formularios/RegistroLibro.jsp"
+                        );
                     break;
 
                 case "vistaAdmin":
                     requestDispatcher
-                            = getServletContext().getRequestDispatcher(
-                                    "/vistas/admin/Admin.jsp"
-                            );
+                        = getServletContext().getRequestDispatcher(
+                            "/vistas/admin/Admin.jsp"
+                        );
                     try {
                         libros
-                                = modLibros.obtenerTodos(
-                                        conexion.getConexion()
-                                );
+                            = modLibros.obtenerTodos(
+                                conexion.getConexion()
+                            );
                     } catch (SQLException ex) {
                         System.out.println(
-                                "Error al recuperar todos los libros"
+                            "Error al recuperar todos los libros"
                         );
                     }
 
@@ -80,12 +80,12 @@ public class ControladorAdmin extends HttpServlet {
                 case "eliminarLibro":
                     try {
                         modLibros.eliminar(
-                                conexion.getConexion(),
-                                Integer.parseInt(
-                                    request.getParameter("idlibro")
-                                )
+                            conexion.getConexion(),
+                            Integer.parseInt(
+                                request.getParameter("idlibro")
+                            )
                         );
-                        
+
                         System.out.println("Se eliminó el libro");
                     } catch (SQLException ex) {
                         System.out.println(
@@ -118,7 +118,7 @@ public class ControladorAdmin extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -132,7 +132,7 @@ public class ControladorAdmin extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
         processRequest(request, response);
     }
 

@@ -48,7 +48,7 @@ public class ControladorAlumno extends HttpServlet {
         Conexion conexion = new Conexion();
         conexion.conectar();
         String mensajeControladorAlumno = "";
-        ModeloLibros ml;
+        ModeloLibros modeloLibros;
         ArrayList<Libro> librosAlumno = null;
         ModeloLibrosDeAlumno modeloLibrosDeAlumno;
         ValidacionLibroAlumno validacionLibroAlumno;
@@ -106,10 +106,12 @@ public class ControladorAlumno extends HttpServlet {
                 break;
 
             case "vistaLibrosRegistrados":
-                ml = new ModeloLibros();
+                modeloLibros = new ModeloLibros();
 
                 try {
-                    librosAlumno = ml.obtenerTodos(conexion.getConexion());
+                    librosAlumno = modeloLibros.obtenerTodos(
+                        conexion.getConexion()
+                    );
                 } catch (SQLException ex) {
                     Logger.getLogger(
                             ControladorAlumno.class.getName()
@@ -127,7 +129,7 @@ public class ControladorAlumno extends HttpServlet {
                 break;
 
             case "vistaLibrosAlumno":
-                ml = new ModeloLibros();
+                modeloLibros = new ModeloLibros();
                 sesion = (HttpSession) request.getSession();
                 int idUsuarioSession = (int) sesion.getAttribute("idUsuario");
 
@@ -135,7 +137,7 @@ public class ControladorAlumno extends HttpServlet {
 
                 try {
                     librosAlumno
-                            = ml.obtenerLibrosAlumno(
+                            = modeloLibros.obtenerLibrosAlumno(
                                     conexion.getConexion(), idUsuarioSession
                             );
                 } catch (SQLException ex) {
@@ -155,10 +157,10 @@ public class ControladorAlumno extends HttpServlet {
                 break;
 
             case "vistaAgregarLibrosAlumno":
-                ml = new ModeloLibros();
+                modeloLibros = new ModeloLibros();
                 
                 try {
-                    librosAlumno = ml.obtenerDisponibles(
+                    librosAlumno = modeloLibros.obtenerDisponibles(
                             conexion.getConexion()
                     );
                 } catch (SQLException ex) {
@@ -168,6 +170,8 @@ public class ControladorAlumno extends HttpServlet {
                         Level.SEVERE, null, ex
                     );
                 }
+                
+                conexion.desconectar();
                 
                 requestDispatcher = getServletContext().getRequestDispatcher(
                     "/vistas/alumnos/LibrosDisponibles.jsp"
@@ -202,8 +206,9 @@ public class ControladorAlumno extends HttpServlet {
                     //valido que no sean negativos los id
                     validacionLibroAlumno = new ValidacionLibroAlumno();
                     
-                    if(!validacionLibroAlumno.validarLibroAlumno(libroDeAlumno)) {
-                        System.out.println("Datos menores a cero");
+                    if(!validacionLibroAlumno.
+                        validarLibroAlumno(libroDeAlumno)) {
+                            System.out.println("Datos menores a cero");
                     } else {
                         modeloLibrosDeAlumno = new ModeloLibrosDeAlumno();
                         //inserta el libro al alumno
@@ -222,7 +227,9 @@ public class ControladorAlumno extends HttpServlet {
                 idLibro = Integer.parseInt(request.getParameter("idLibro"));
                 
                 try {
-                    modeloLibrosDeAlumno.eliminar(conexion.getConexion(), idLibro);
+                    modeloLibrosDeAlumno.eliminar(
+                        conexion.getConexion(), idLibro
+                    );
                 } catch (SQLException ex) {
                     Logger.getLogger(
                         ControladorAlumno.class.getName()
@@ -248,7 +255,8 @@ public class ControladorAlumno extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. 
+    // Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -258,7 +266,8 @@ public class ControladorAlumno extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, 
+        HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -272,7 +281,8 @@ public class ControladorAlumno extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, 
+        HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }

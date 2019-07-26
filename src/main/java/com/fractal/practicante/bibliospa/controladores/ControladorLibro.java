@@ -27,8 +27,9 @@ public class ControladorLibro extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, 
+        HttpServletResponse response)
+        throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
         String accion = request.getParameter("ACCION");
@@ -46,11 +47,11 @@ public class ControladorLibro extends HttpServlet {
                     String autor = request.getParameter("autor");
                     String isbn = request.getParameter("isbn");
                     int numPaginas = Integer.parseInt(
-                            request.getParameter("numPaginas")
+                        request.getParameter("numPaginas")
                     );
-                    
+
                     Libro objetoLibro = new Libro(
-                            titulo, autor, numPaginas, isbn
+                        titulo, autor, numPaginas, isbn
                     );
 
                     ValidacionLibro valLibro = new ValidacionLibro();
@@ -83,7 +84,8 @@ public class ControladorLibro extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. 
+    // Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -93,8 +95,9 @@ public class ControladorLibro extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, 
+        HttpServletResponse response)
+        throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -107,8 +110,9 @@ public class ControladorLibro extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, 
+        HttpServletResponse response)
+        throws ServletException, IOException {
         processRequest(request, response);
     }
 
