@@ -130,7 +130,13 @@ public class ModeloLibros implements OperacionObtener<Libro>,
         }    
         
     }
-          
+    
+    /**
+     * 
+     * @param conexion
+     * @return
+     * @throws SQLException 
+     */      
     @Override
     public ArrayList<Libro> obtenerTodos(Connection conexion) 
             throws SQLException{
@@ -150,6 +156,38 @@ public class ModeloLibros implements OperacionObtener<Libro>,
                 resultado.getString("ISBN")
             );   
             libros.add(libro);
+        }
+        return libros;
+    }
+    
+    /**
+     * 
+     * @param conexion
+     * @return
+     * @throws SQLException 
+     */
+    public ArrayList<Libro> obtenerDisponibles(Connection conexion) 
+            throws SQLException{
+        ArrayList<Libro> libros = new ArrayList();
+        PreparedStatement consulta = conexion.prepareStatement(
+            "CALL USP_LIBROS_RTODOS ();"
+        );
+        ResultSet resultado = consulta.executeQuery();
+        while(resultado.next()){
+            if(resultado.getString("ESTADO").charAt(0) == '1'){
+                Libro libro = null;
+                libro = new Libro(
+                    resultado.getInt("ID"),
+                    resultado.getString("TITULO"),
+                    resultado.getString("AUTOR"),
+                    Integer.parseInt(resultado.getString("NUMPAGINAS")),
+                    resultado.getString("ESTADO").charAt(0),
+                    resultado.getString("ISBN")
+                );
+                
+                libros.add(libro);
+            }
+            
         }
         return libros;
     }

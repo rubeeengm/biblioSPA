@@ -4,42 +4,35 @@
     Author     : Jorge Hernánadez
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="java.util.ArrayList"%>
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ page import="com.fractal.practicante.bibliospa.modelo.beans.Libro" %>
+
 <h1>Libros disponibles</h1>
+<%
+    ArrayList<Libro> libros = (ArrayList<Libro>) request.getAttribute("listaLibrosDisponibles");
+    request.setAttribute("libros", libros);
+%>
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">#</th>
             <th scope="col">Título</th>
             <th scope="col">Autor</th>
-            <th scope="col">ISBN</th>
             <th scope="col">Número de páginas</th>
-            <th scope="col">Agregar</th>
+            <th scope="col"></th>
         </tr>
     </thead>
     
     <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Matematicas 1</td>
-            <td>Jorge Hernandez</td>
-            <td>12-154-12365-12</td>
-            <td>255</td>
-            <td>
-                <button id="algo" class="btn btn-success">Agregar</button>
-            </td>
-        </tr>
-        
-        <tr>
-            <th scope="row">2</th>
-            <td>Fisica 1</td>
-            <td>Marco Lopez</td>
-            <td>90-234-15675-15</td>
-            <td>110</td>
-            <td>
-                <button id="algo" class="btn btn-success">Agregar</button>
-            </td>
-        </tr>
+        <c:forEach var="libro" items="${libros}">
+            <tr>
+                <td>${libro.getTitulo()}</td>
+                <td>${libro.getAutor()}</td>
+                <td>${libro.getNumPaginas()}</td>
+                <td><button id="${libro.getId()}" class="agregar btn btn-success">Agregar</button></td>
+            </tr>
+        </c:forEach>
     </tbody>                       
 </table>
 

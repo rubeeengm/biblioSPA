@@ -45,7 +45,7 @@ public class ControladorAlumno extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
         String accion = request.getParameter("ACCION");
@@ -60,10 +60,10 @@ public class ControladorAlumno extends HttpServlet {
             case "registrar":
                 String nombre = request.getParameter("nombre");
                 String apellidoPaterno = request.getParameter(
-                    "apellidoPaterno"
+                        "apellidoPaterno"
                 );
                 String apellidoMaterno = request.getParameter(
-                    "apellidoMaterno"
+                        "apellidoMaterno"
                 );
                 String telefono = request.getParameter("telefono");
                 String dni = request.getParameter("dni");
@@ -71,11 +71,11 @@ public class ControladorAlumno extends HttpServlet {
                 String contrasenia = request.getParameter("contrasenia");
 
                 Alumno alumnoObjeto = new Alumno(
-                    nombre, apellidoPaterno, apellidoMaterno, telefono, dni
+                        nombre, apellidoPaterno, apellidoMaterno, telefono, dni
                 );
-                
+
                 Usuario usuarioObjeto = new Usuario(
-                    nombreUsuario, contrasenia
+                        nombreUsuario, contrasenia
                 );
 
                 ValidacionAlumno valAl = new ValidacionAlumno();
@@ -84,9 +84,9 @@ public class ControladorAlumno extends HttpServlet {
                 ModeloTransacciones mt = new ModeloTransacciones();
 
                 if (valAl.validarNulos(alumnoObjeto)
-                    && valUs.validarNulos(usuarioObjeto)) {
+                        && valUs.validarNulos(usuarioObjeto)) {
                     if (valAl.validacionTotal(alumnoObjeto)
-                        && valUs.validacionTotal(usuarioObjeto)) {
+                            && valUs.validacionTotal(usuarioObjeto)) {
 
                         mt.insertarAlumno(conexion.getConexion(), alumnoObjeto, usuarioObjeto);
                         conexion.desconectar();
@@ -103,17 +103,17 @@ public class ControladorAlumno extends HttpServlet {
 
             case "vistaLibrosRegistrados":
                 ml = new ModeloLibros();
-                
+
                 try {
                     librosAlumno = ml.obtenerTodos(conexion.getConexion());
                 } catch (SQLException ex) {
                     Logger.getLogger(ControladorAlumno.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
                 conexion.desconectar();
-                
+
                 requestDispatcher = getServletContext().getRequestDispatcher(
-                    "/vistas/alumnos/LibrosRegistrados.jsp"
+                        "/vistas/alumnos/LibrosRegistrados.jsp"
                 );
                 request.setAttribute("listaLibrosRegistrados", librosAlumno);
                 break;
@@ -122,36 +122,52 @@ public class ControladorAlumno extends HttpServlet {
                 ml = new ModeloLibros();
                 HttpSession misession = (HttpSession) request.getSession();
                 int idUsuarioSession = (int) misession.getAttribute("idUsuario");
-                
+
                 System.out.println(idUsuarioSession);
-                
+
                 try {
-                    librosAlumno = 
-                        ml.obtenerLibrosAlumno(
-                            conexion.getConexion(), idUsuarioSession
-                        );
+                    librosAlumno
+                            = ml.obtenerLibrosAlumno(
+                                    conexion.getConexion(), idUsuarioSession
+                            );
                 } catch (SQLException ex) {
                     Logger.getLogger(
-                        ControladorAlumno.class.getName()).log(
+                            ControladorAlumno.class.getName()).log(
                             Level.SEVERE, null, ex
                     );
                 }
-                
+
                 conexion.desconectar();
-                
+
                 requestDispatcher = getServletContext().getRequestDispatcher(
                     "/vistas/alumnos/LibrosAlumno.jsp"
                 );
-                
+
                 request.setAttribute("listaLibrosAlumno", librosAlumno);
                 break;
 
             case "vistaAgregarLibrosAlumno":
+                ml = new ModeloLibros();
+                
+                try {
+                    librosAlumno = ml.obtenerDisponibles(
+                            conexion.getConexion()
+                    );
+                } catch (SQLException ex) {
+                    Logger.getLogger(
+                            ControladorAlumno.class.getName()
+                    ).log(
+                        Level.SEVERE, null, ex
+                    );
+                }
+                
                 requestDispatcher = getServletContext().getRequestDispatcher(
                     "/vistas/alumnos/LibrosDisponibles.jsp"
                 );
-            break;
-            
+                
+                request.setAttribute("listaLibrosDisponibles", librosAlumno);
+                break;
+
             default:
                 System.out.println("Error de ruta");
                 break;
@@ -177,7 +193,7 @@ public class ControladorAlumno extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -191,7 +207,7 @@ public class ControladorAlumno extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
