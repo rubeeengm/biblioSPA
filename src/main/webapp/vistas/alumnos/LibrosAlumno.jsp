@@ -33,7 +33,7 @@
                         <td>${libro.getAutor()}</td>
                         <td>${libro.getNumPaginas()}</td>
                         <td>
-                            <button class="btn btn-danger">Borrar Libro</button>
+                            <button id="${libro.getId()}" class="borrar btn btn-danger">Borrar Libro</button>
                         </td>
                     </tr>
                 </c:forEach>

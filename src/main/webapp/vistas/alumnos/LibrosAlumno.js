@@ -14,6 +14,11 @@ var LibrosAlumno = {
             event.preventDefault();
             LibrosAlumno.peticionVistaIndex();
         });
+        
+        $('.borrar').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            console.log($(this).attr("id"));
+        });
     },
     peticionVistaLibroRegistrados: function () {
         $.ajax({

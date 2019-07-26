@@ -103,6 +103,7 @@ public class ModeloLibros implements OperacionObtener<Libro>,
         while(resultado.next()){
             Libro libro = null;
             libro = new Libro(
+                            resultado.getInt("ID"),
                             resultado.getString("TITULO"),
                             resultado.getString("AUTOR"),
                             resultado.getInt("NUMPAGINAS")

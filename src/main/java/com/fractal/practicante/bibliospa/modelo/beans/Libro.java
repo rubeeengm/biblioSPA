@@ -55,7 +55,8 @@ public class Libro {
      * @param autor         Nombre del autor del libro
      * @param numPaginas    Cantidad de páginas del libro
      */
-    public Libro(String titulo, String autor, int numPaginas) {
+    public Libro(int id, String titulo, String autor, int numPaginas) {
+        this.id = id;
         this.titulo = titulo;
         this.autor = autor;
         this.numPaginas = numPaginas;

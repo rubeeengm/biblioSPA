@@ -9,6 +9,11 @@ var LibrosDisponibles = {
             event.preventDefault();
             LibrosDisponibles.peticionVistaLibrosAlumno();
         });
+        
+        $('.agregar').unbind('click').bind('click', function (event) {
+            event.preventDefault();
+            console.log($(this).attr("id"));
+        });
     },
     peticionVistaLibrosAlumno: function () {
         $.ajax({
