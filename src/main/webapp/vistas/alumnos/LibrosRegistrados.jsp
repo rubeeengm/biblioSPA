@@ -32,7 +32,15 @@
                 <td>${libro.getTitulo()}</td>
                 <td>${libro.getAutor()}</td>
                 <td>${libro.getNumPaginas()}</td>
-                <td>${libro.getEstado()}</td>                        
+                <c:choose>
+                    <c:when test = "${libro.getEstado() eq '1'.charAt(0)}">
+                        <td> Disponible </td>
+                    </c:when>
+
+                    <c:when test = "${libro.getEstado() eq '0'.charAt(0)}">
+                        <td> Ocupado </td>
+                    </c:when>
+                </c:choose>
             </tr>
         </c:forEach>
     </tbody>                       
