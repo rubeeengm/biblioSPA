@@ -1,16 +1,6 @@
-var LibrosDisponibles = {
-    cargarModulo: function () {
-        $('#cancelar').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            LibrosDisponibles.peticionVistaLibrosAlumno();
-        });
-        
-        $('.agregar').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            LibrosDisponibles.agregarLibro($(this).attr("id"));
-        });
-    },
-    peticionVistaLibrosAlumno: function () {
+var LibrosDisponibles = (function(){
+
+    function peticionVistaLibrosAlumno(){
         $.ajax({
             url: 'http://localhost:8080/biblioSPA/ControladorAlumno',
             method: 'POST',
@@ -19,14 +9,15 @@ var LibrosDisponibles = {
             }
         }).done(function () {
             $('div.container').html(arguments[0]);
-            $.getScript("vistas/alumnos/LibrosAlumno.js").done(function () {
+            $.getScript("vistas/alumnos/LibrosAlumnoPM.js").done(function () {
                 LibrosAlumno.cargarModulo();
             });
         }).fail(function () {
             alert("Error");
         });
-    },
-    agregarLibro: function (idLibro) {
+    }
+
+    function agregarLibro(idLibro) {
         $.ajax({
             url: 'http://localhost:8080/biblioSPA/ControladorAlumno',
             method: 'POST',
@@ -35,12 +26,13 @@ var LibrosDisponibles = {
                 idLibro: idLibro
             }
         }).done(function () {
-           LibrosDisponibles.peticionVistaAgregarLibrosAlumno();
+           peticionVistaAgregarLibrosAlumno();
         }).fail(function () {
             alert("Error");
         });
-    },
-    peticionVistaAgregarLibrosAlumno: function() {
+    }
+
+    function peticionVistaAgregarLibrosAlumno(){
         $.ajax({
             url: 'http://localhost:8080/biblioSPA/ControladorAlumno',
             method: 'POST',
@@ -49,13 +41,27 @@ var LibrosDisponibles = {
             }
         }).done(function () {
             $('div.container').html(arguments[0]);
-            $.getScript("vistas/alumnos/LibrosDisponibles.js").done(
+            $.getScript("vistas/alumnos/LibrosDisponiblesPM.js").done(
                 function () {
-                    LibrosDisponibles.cargarModulo();
+                    cargarModulo();
                 }
             );
         }).fail(function () {
             alert("Error");
         });
     }
-}
+
+    return {
+        cargarModulo: function () {
+            $('#cancelar').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                peticionVistaLibrosAlumno();
+            });
+            
+            $('.agregar').unbind('click').bind('click', function (event) {
+                event.preventDefault();
+                agregarLibro($(this).attr("id"));
+            });
+        }
+    }
+}());

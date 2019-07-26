@@ -1,34 +1,23 @@
-var RegistroAlumno = {
-    cargarModulo: function () {
-        $('#btnRegistrar').unbind('click').bind('click', function(){
-            event.preventDefault();
-            RegistroAlumno.peticionRegistrar();
-        });
-        
-        $('#btnCancelar').unbind('click').bind('click', function(){
-            event.preventDefault();
-            RegistroAlumno.peticionVistaLogin();
-        });
-    },
-    
-    peticionVistaLogin: function () {
+var RegistroAlumno = (function(){
+
+    function peticionLogin(){
         $.ajax({
-                url: 'http://localhost:8080/biblioSPA/ControladorLogin',
-                method: 'POST',
-                data:{
-                    ACCION: "vistaLogin"
-                }
-            }).done(function () {
-                $('div.container').html(arguments[0]);
-                $.getScript('vistas/login/Login.js').done(function () {
-                    Login.cargarModulo();
-                });
-            }).fail(function () {
-                alert("Error");
+            url: 'http://localhost:8080/biblioSPA/ControladorLogin',
+            method: 'POST',
+            data:{
+                ACCION: "vistaLogin"
+            }
+        }).done(function () {
+            $('div.container').html(arguments[0]);
+            $.getScript('vistas/login/LoginPM.js').done(function () {
+                Login.cargarModulo();
             });
-    },
-    
-    peticionRegistrar: function () {
+        }).fail(function () {
+            alert("Error");
+        });
+    }
+
+    function peticionRegistrar(){
         $.ajax({
             url: 'http://localhost:8080/biblioSPA/ControladorAlumno',
             method: 'POST',
@@ -47,7 +36,7 @@ var RegistroAlumno = {
             switch (arguments[0]) {
                 
                 case "exito":
-                    RegistroAlumno.peticionVistaLogin();
+                    peticionVistaLogin();
                     alert('Te registraste correctamente');
                 break;
 
@@ -72,4 +61,18 @@ var RegistroAlumno = {
         });
           
     }
-}
+
+    return {
+        cargarModulo: function () {
+            $('#btnRegistrar').unbind('click').bind('click', function(){
+                event.preventDefault();
+                peticionRegistrar();
+            }); 
+        
+            $('#btnCancelar').unbind('click').bind('click', function(){
+                event.preventDefault();
+                peticionLogin();
+            });
+        }
+    }
+}());

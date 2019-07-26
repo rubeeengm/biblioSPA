@@ -23,7 +23,7 @@
     <script src="./assets/js/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="./assets/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-    <script type="text/javascript" src="./vistas/login/Login.js"></script>
+    <script type="text/javascript" src="./vistas/login/LoginPM.js"></script>
     
     <script>
         $(document).ready(function() {
