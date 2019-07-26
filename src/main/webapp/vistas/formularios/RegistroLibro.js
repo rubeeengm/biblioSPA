@@ -21,10 +21,35 @@ var RegistroLibro = {
                     numPaginas: $('#numPaginas').val()
                 }
             }).done(function () {
-                RegistroLibro.peticionVistaAdmin();
-                alert("Libro registrado");
+                switch (arguments[0]) {
+                
+                case "exito":
+                    RegistroLibro.peticionVistaAdmin();
+                    alert('Registraste un libro correctamente');
+                break;
+
+                case "datos_erroneos":
+                    alert("Los datos en los campos no coinciden");
+                break;
+
+                case "datos_nulos":
+                    alert("Peticion con datos nulos");
+                break;
+
+                case "datos_vacios":
+                    alert("Procura llenar los campos");
+                break;
+                
+                case "db_error":
+                    alert("Error en la base de datos");
+                break;
+                    
+                default:
+                    alert("Error general");
+                }
+                
             }).fail(function () {
-                alert("Verifica tus datos");
+              alert("Verifica tus datos");
             });
     },
     peticionVistaAdmin: function () {
