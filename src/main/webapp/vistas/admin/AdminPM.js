@@ -1,23 +1,6 @@
-var Admin = {
-    cargarModulo: function () {
-       $('#buttonSalir').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            Admin.peticionVistaIndex();
-        });
-        
-        $('#buttonRegistrarLibro').unbind('click').bind('click', 
-            function (event) {
-                event.preventDefault();
-                Admin.peticionVistaRegistroLibro();
-            }
-        );
+var Admin = (function(){
 
-        $('.btn-danger').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            Admin.peticionEliminarLibro($(this).val());
-        });
-    },
-    peticionVistaIndex: function () {
+    function peticionVistaIndex(){
         $.ajax({
             url: 'http://localhost:8080/biblioSPA/ControladorLogin',
             method: 'POST',
@@ -26,14 +9,15 @@ var Admin = {
             }
         }).done(function () {
             $('div.container').html(arguments[0]);
-            $.getScript("vistas/login/Login.js").done(function () {
+            $.getScript("vistas/login/LoginPM.js").done(function () {
                 Login.cargarModulo();
             });
         }).fail(function () {
             alert("Error");
         });
-    },
-    peticionVistaRegistroLibro: function () {
+    }
+
+    function peticionVistaRegistroLibro(){
         $.ajax({
             url: 'http://localhost:8080/biblioSPA/ControladorAdmin',
             method: 'POST',
@@ -42,14 +26,15 @@ var Admin = {
             }
         }).done(function () {
             $('div.container').html(arguments[0]);
-            $.getScript("vistas/formularios/RegistroLibro.js").done(function () {
+            $.getScript("vistas/formularios/RegistroLibroPM.js").done(function () {
                 RegistroLibro.cargarModulo();
             });
         }).fail(function () {
             alert("Error");
         });
-    },
-    peticionObtenerLibros: function () {
+    }
+
+    function peticionObtenerLibros(){
         $.ajax({
             url: 'http://localhost:8080/biblioSPA/ControladorAdmin',
             method: 'POST',
@@ -60,8 +45,9 @@ var Admin = {
         }).fail(function () {
             alert("Error");
         });
-    },
-    peticionEliminarLibro: function (idlibro) {
+    }
+
+    function peticionEliminarLibro(idlibro){
         $.ajax({
             url: 'http://localhost:8080/biblioSPA/ControladorAdmin',
             method: 'POST',
@@ -70,13 +56,14 @@ var Admin = {
                 idlibro
             }
         }).done(function () {
-            Admin.peticionVistaAdmin();
+            peticionVistaAdmin();
             alert("Libro eliminado");
         }).fail(function () {
             alert("Error");
         });
-    },
-    peticionVistaAdmin: function () {
+    }
+
+    function peticionVistaAdmin(){
         $.ajax({
             url: 'http://localhost:8080/biblioSPA/ControladorAdmin',
             method: 'POST',
@@ -85,11 +72,32 @@ var Admin = {
             }
         }).done(function () {
             $('div.container').html(arguments[0]);
-            $.getScript("vistas/admin/Admin.js").done(function () {
+            $.getScript("vistas/admin/AdminPM.js").done(function () {
                 Admin.cargarModulo();
             });
         }).fail(function () {
             alert("Error");
         });
     }
-};
+
+    return {
+        cargarModulo: function () {
+            $('#buttonSalir').unbind('click').bind('click', function (event) {
+                 event.preventDefault();
+                 peticionVistaIndex();
+             });
+             
+             $('#buttonRegistrarLibro').unbind('click').bind('click', 
+                 function (event) {
+                     event.preventDefault();
+                     peticionVistaRegistroLibro();
+                 }
+             );
+     
+             $('.btn-danger').unbind('click').bind('click', function (event) {
+                 event.preventDefault();
+                 peticionEliminarLibro($(this).val());
+             });
+         }
+    }
+}());
