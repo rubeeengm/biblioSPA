@@ -1,3 +1,6 @@
+CREATE DATABASE PRESTAMO_LIBROS;
+USE PRESTAMO_LIBROS;
+
 #Creacion tabla Usuarios
 #Usuario de 20 caracteres máximo
 #Contrasenia pasada por MD5 por lo que se usan los 32 caracteres

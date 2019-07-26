@@ -42,7 +42,7 @@
     </c:when>
 
     <c:when test="${libros.size() < 1}">
-        <img src="assets/img/imagen.png">
+        <img src="./assets/img/imagen.png">
     </c:when>
 </c:choose>
         
