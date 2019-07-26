@@ -18,7 +18,7 @@
     
     <c:choose>
         <c:when test="${libros.size() > 0}">
-            <table class="table table-striped"">
+            <table class="table table-striped">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Titulo</th>
