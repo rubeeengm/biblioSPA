@@ -18,14 +18,14 @@
         <label for="isbn">ISBN</label>
         <input type="text" class="form-control" id="isbn" 
                name="isbn" placeholder="Escribe el ISBN sin guiones" 
-               required pattern="^[1-9]\d{12}$">
+               required pattern="^[1-9]\d{12}$" maxlength="13">
     </div>
 
     <div class="form-group">
         <label for="numPaginas">Numero de páginas</label>
         <input type="text" class="form-control" id="numPaginas" 
                name="numPaginas" placeholder="Escribe el número de páginas" 
-               maxlenght="5" required pattern="^[1-9]\d*$">
+               required pattern="^[1-9]\d{0,3}$" maxlength="4">
     </div>
     <button id="buttonRegistrarLibro" type="submit" style="margin-left: 15px" class="btn btn-success">Registrar</button>
     <button id="buttonCancelar" style="margin-left: 20px" class="btn btn-danger">Cancelar</button>
