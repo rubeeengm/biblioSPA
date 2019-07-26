@@ -31,7 +31,7 @@ public class Conexion {
                     "jdbc:mysql://127.0.0.1:3306/PRESTAMO_LIBROS?"
                     + "serverTimezone=UTC",
                     "pruebas", //usuario del servidor
-                    "password" //contraseña del servidor
+                    "1234qwer" //contraseña del servidor
                 );
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(
