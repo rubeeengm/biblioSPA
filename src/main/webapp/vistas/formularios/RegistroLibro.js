@@ -49,7 +49,7 @@ var RegistroLibro = {
                 }
                 
             }).fail(function () {
-                //alert("Error");
+              alert("Verifica tus datos");
             });
     },
     peticionVistaAdmin: function () {

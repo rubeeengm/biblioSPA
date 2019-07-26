@@ -71,6 +71,7 @@ var Admin = {
             }
         }).done(function () {
             Admin.peticionVistaAdmin();
+            alert("Libro eliminado");
         }).fail(function () {
             alert("Error");
         });
