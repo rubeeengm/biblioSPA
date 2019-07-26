@@ -7,9 +7,12 @@ package com.fractal.practicante.bibliospa.controladores;
 
 import com.fractal.practicante.bibliospa.modelo.beans.Alumno;
 import com.fractal.practicante.bibliospa.modelo.beans.Libro;
+import com.fractal.practicante.bibliospa.modelo.beans.LibroDeAlumno;
 import com.fractal.practicante.bibliospa.modelo.beans.Usuario;
 import com.fractal.practicante.bibliospa.modelo.conexion.Conexion;
+import com.fractal.practicante.bibliospa.modelo.modelos.ModeloAlumnos;
 import com.fractal.practicante.bibliospa.modelo.modelos.ModeloLibros;
+import com.fractal.practicante.bibliospa.modelo.modelos.ModeloLibrosDeAlumno;
 import com.fractal.practicante.bibliospa.modelo.modelos.ModeloTransacciones;
 import com.fractal.practicante.bibliospa.modelo.validaciones.ValidacionAlumno;
 import com.fractal.practicante.bibliospa.modelo.validaciones.ValidacionUsuario;
@@ -55,6 +58,7 @@ public class ControladorAlumno extends HttpServlet {
         String mensajeControladorAlumno = "";
         ModeloLibros ml;
         ArrayList<Libro> librosAlumno = null;
+        ModeloLibrosDeAlumno mla;
 
         switch (accion) {
             case "registrar":
@@ -167,6 +171,15 @@ public class ControladorAlumno extends HttpServlet {
                 
                 request.setAttribute("listaLibrosDisponibles", librosAlumno);
                 break;
+                
+            case "agregarLibroAlumno":
+                misession = (HttpSession) request.getSession();
+                idUsuarioSession = (int) misession.getAttribute("idUsuario");
+                int idLibro = Integer.parseInt(request.getParameter("idLibro"));
+                mla = new ModeloLibrosDeAlumno();
+                mla.insertar(conexion.getConexion(), new LibroDeAlumno(idUsuarioSession, idLibro));
+                conexion.desconectar();
+            break;
 
             default:
                 System.out.println("Error de ruta");

@@ -1,10 +1,5 @@
 var LibrosDisponibles = {
     cargarModulo: function () {
-        $('#agregarSelecciones').unbind('click').bind('click', function (event) {
-            event.preventDefault();
-            alert("Libros agregados");
-        });
-        
         $('#cancelar').unbind('click').bind('click', function (event) {
             event.preventDefault();
             LibrosDisponibles.peticionVistaLibrosAlumno();
@@ -12,7 +7,7 @@ var LibrosDisponibles = {
         
         $('.agregar').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            console.log($(this).attr("id"));
+            LibrosDisponibles.agregarLibro($(this).attr("id"));
         });
     },
     peticionVistaLibrosAlumno: function () {
@@ -27,6 +22,38 @@ var LibrosDisponibles = {
             $.getScript("vistas/alumnos/LibrosAlumno.js").done(function () {
                 LibrosAlumno.cargarModulo();
             });
+        }).fail(function () {
+            alert("Error");
+        });
+    },
+    agregarLibro: function (idLibro) {
+        $.ajax({
+            url: 'http://localhost:8080/biblioSPA/ControladorAlumno',
+            method: 'POST',
+            data: {
+                ACCION: "agregarLibroAlumno",
+                idLibro: idLibro
+            }
+        }).done(function () {
+           LibrosDisponibles.peticionVistaAgregarLibrosAlumno();
+        }).fail(function () {
+            alert("Error");
+        });
+    },
+    peticionVistaAgregarLibrosAlumno: function() {
+        $.ajax({
+            url: 'http://localhost:8080/biblioSPA/ControladorAlumno',
+            method: 'POST',
+            data: {
+                ACCION: "vistaAgregarLibrosAlumno"
+            }
+        }).done(function () {
+            $('div.container').html(arguments[0]);
+            $.getScript("vistas/alumnos/LibrosDisponibles.js").done(
+                function () {
+                    LibrosDisponibles.cargarModulo();
+                }
+            );
         }).fail(function () {
             alert("Error");
         });

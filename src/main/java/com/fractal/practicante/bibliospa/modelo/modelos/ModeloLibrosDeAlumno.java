@@ -27,7 +27,7 @@ public class ModeloLibrosDeAlumno implements OperacionObtener<LibroDeAlumno>, Op
         try {
             PreparedStatement consulta;
             consulta = conexion.prepareStatement(
-                "CALL USP_LIBROSDEUSUARIO_C (?, ?);"
+                "CALL USP_LIBROSDEALUMNO_C (?, ?);"
             );
             consulta.setInt(1, libroDeAlumno.getIdAlumno());
             consulta.setInt(2, libroDeAlumno.getIdLibro());
