@@ -85,22 +85,27 @@ public class ControladorAlumno extends HttpServlet {
 
                 if (valAl.validarNulos(alumnoObjeto)
                         && valUs.validarNulos(usuarioObjeto)) {
-                    if (valAl.validacionTotal(alumnoObjeto)
+                    if(valAl.validarVacios(alumnoObjeto) &&
+                            valUs.validarVacios(usuarioObjeto)){
+                            if (valAl.validacionTotal(alumnoObjeto)
                             && valUs.validacionTotal(usuarioObjeto)) {
 
-                        mt.insertarAlumno(
-                            conexion.getConexion(), 
-                            alumnoObjeto, 
-                            usuarioObjeto
-                        );
-                        conexion.desconectar();
-                        mensajeControladorAlumno = "success";
+                            mt.insertarAlumno(
+                                conexion.getConexion(), 
+                                alumnoObjeto, 
+                                usuarioObjeto
+                            );
+                            conexion.desconectar();
+                            mensajeControladorAlumno = "exito";
 
+                        } else {
+                            mensajeControladorAlumno = "datos_erroneos";
+                    }
                     } else {
-                        mensajeControladorAlumno = "error_data";
+                        mensajeControladorAlumno = "datos_vacios";
                     }
                 } else {
-                    mensajeControladorAlumno = "empty_data";
+                    mensajeControladorAlumno = "datos_nulos";
                 }
 
                 break;

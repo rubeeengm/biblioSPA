@@ -44,7 +44,7 @@ public class ValidacionAlumno extends Validacion<Alumno>{
                 apellidoMaterno.equals("") || telefono.equals("") || 
                 dni.equals("")){
             
-            System.out.println("Datos nulos");
+            System.out.println("Datos vacios");
             return false;
         } else{
             return true;
@@ -109,9 +109,9 @@ public class ValidacionAlumno extends Validacion<Alumno>{
         } else if(!validarExpresion(REGEX_DNI, alumno.getDni())){
             System.out.println("Dni erroneo");
             return false;
-        } else{
-            System.out.println("Datos correctos");
-            return true;
-        }        
+        }
+        
+        System.out.println("Datos correctos Alumno");
+        return true;
     }
 }
