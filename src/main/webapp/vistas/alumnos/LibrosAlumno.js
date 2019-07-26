@@ -17,7 +17,7 @@ var LibrosAlumno = {
         
         $('.borrar').unbind('click').bind('click', function (event) {
             event.preventDefault();
-            console.log($(this).attr("id"));
+            LibrosAlumno.borrarLibro($(this).attr("id"));
         });
     },
     peticionVistaLibroRegistrados: function () {
@@ -67,6 +67,36 @@ var LibrosAlumno = {
             $('div.container').html(arguments[0]);
             $.getScript("vistas/login/Login.js").done(function () {
                 Login.cargarModulo();
+            });
+        }).fail(function () {
+            alert("Error");
+        });
+    },
+    borrarLibro: function(idLibro) {
+        $.ajax({
+            url: 'http://localhost:8080/biblioSPA/ControladorAlumno',
+            method: 'POST',
+            data: {
+                ACCION: "borrarLibroAlumno",
+                idLibro: idLibro
+            }
+        }).done(function () {
+            LibrosAlumno.peticionVistaLibrosAlumno();
+        }).fail(function () {
+            alert("Error");
+        });
+    },
+    peticionVistaLibrosAlumno: function () {
+        $.ajax({
+            url: 'http://localhost:8080/biblioSPA/ControladorAlumno',
+            method: 'POST',
+            data: {
+                ACCION: "vistaLibrosAlumno"
+            }
+        }).done(function () {
+            $('div.container').html(arguments[0]);
+            $.getScript("vistas/alumnos/LibrosAlumno.js").done(function () {
+                LibrosAlumno.cargarModulo();
             });
         }).fail(function () {
             alert("Error");

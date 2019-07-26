@@ -59,6 +59,7 @@ public class ControladorAlumno extends HttpServlet {
         ModeloLibros ml;
         ArrayList<Libro> librosAlumno = null;
         ModeloLibrosDeAlumno mla;
+        int idLibro;
 
         switch (accion) {
             case "registrar":
@@ -175,9 +176,22 @@ public class ControladorAlumno extends HttpServlet {
             case "agregarLibroAlumno":
                 misession = (HttpSession) request.getSession();
                 idUsuarioSession = (int) misession.getAttribute("idUsuario");
-                int idLibro = Integer.parseInt(request.getParameter("idLibro"));
+                idLibro = Integer.parseInt(request.getParameter("idLibro"));
                 mla = new ModeloLibrosDeAlumno();
                 mla.insertar(conexion.getConexion(), new LibroDeAlumno(idUsuarioSession, idLibro));
+                conexion.desconectar();
+            break;
+            
+            case "borrarLibroAlumno":
+                mla = new ModeloLibrosDeAlumno();
+                idLibro = Integer.parseInt(request.getParameter("idLibro"));
+                
+                try {
+                    mla.eliminar(conexion.getConexion(), idLibro);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ControladorAlumno.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
                 conexion.desconectar();
             break;
 
