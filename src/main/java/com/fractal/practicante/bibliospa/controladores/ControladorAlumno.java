@@ -9,6 +9,7 @@ import com.fractal.practicante.bibliospa.modelo.modelos.ModeloLibros;
 import com.fractal.practicante.bibliospa.modelo.modelos.ModeloLibrosDeAlumno;
 import com.fractal.practicante.bibliospa.modelo.modelos.ModeloTransacciones;
 import com.fractal.practicante.bibliospa.modelo.validaciones.ValidacionAlumno;
+import com.fractal.practicante.bibliospa.modelo.validaciones.ValidacionLibroAlumno;
 import com.fractal.practicante.bibliospa.modelo.validaciones.ValidacionUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -49,9 +50,12 @@ public class ControladorAlumno extends HttpServlet {
         String mensajeControladorAlumno = "";
         ModeloLibros ml;
         ArrayList<Libro> librosAlumno = null;
-        ModeloLibrosDeAlumno mla;
+        ModeloLibrosDeAlumno modeloLibrosDeAlumno;
+        ValidacionLibroAlumno validacionLibroAlumno;
         int idLibro;
-
+        LibroDeAlumno libroDeAlumno;
+        HttpSession sesion;
+        
         switch (accion) {
             case "registrar":
                 String nombre = request.getParameter("nombre");
@@ -124,8 +128,8 @@ public class ControladorAlumno extends HttpServlet {
 
             case "vistaLibrosAlumno":
                 ml = new ModeloLibros();
-                HttpSession misession = (HttpSession) request.getSession();
-                int idUsuarioSession = (int) misession.getAttribute("idUsuario");
+                sesion = (HttpSession) request.getSession();
+                int idUsuarioSession = (int) sesion.getAttribute("idUsuario");
 
                 System.out.println(idUsuarioSession);
 
@@ -173,25 +177,52 @@ public class ControladorAlumno extends HttpServlet {
                 break;
                 
             case "agregarLibroAlumno":
-                misession = (HttpSession) request.getSession();
-                idUsuarioSession = (int) misession.getAttribute("idUsuario");
-                idLibro = Integer.parseInt(request.getParameter("idLibro"));
-                mla = new ModeloLibrosDeAlumno();
+                int idUsuario = 0;
+                String idUsuarioSesion = "";
+                //recupero la sesion
+                sesion = (HttpSession) request.getSession();
+                //obtengo el idLibro de la petición
+                String idLibroRequest = request.getParameter("idLibro");
                 
-                mla.insertar(
-                    conexion.getConexion(), 
-                    new LibroDeAlumno(idUsuarioSession, idLibro)
-                );
+                try {
+                    //obtengo el valor del idUsuario de la sesion
+                    idUsuario = (int) sesion.getAttribute("idUsuario");
+                } catch (NullPointerException e) {
+                    System.out.println("Usuario no logueado");
+                    idUsuarioSesion = null;
+                }
+                
+                if(idUsuarioSesion == null || idLibroRequest == null) {
+                    System.out.println("Id de usuario o Id de libro nulo");
+                } else {
+                    libroDeAlumno = new LibroDeAlumno(
+                        idUsuario,
+                        Integer.parseInt(idLibroRequest)
+                    );
+                    //valido que no sean negativos los id
+                    validacionLibroAlumno = new ValidacionLibroAlumno();
+                    
+                    if(!validacionLibroAlumno.validarLibroAlumno(libroDeAlumno)) {
+                        System.out.println("Datos menores a cero");
+                    } else {
+                        modeloLibrosDeAlumno = new ModeloLibrosDeAlumno();
+                        //inserta el libro al alumno
+                        modeloLibrosDeAlumno.insertar(
+                            conexion.getConexion(), 
+                            libroDeAlumno
+                        );
+                    }
+                }
                 
                 conexion.desconectar();
             break;
             
             case "borrarLibroAlumno":
-                mla = new ModeloLibrosDeAlumno();
+                modeloLibrosDeAlumno = new ModeloLibrosDeAlumno();
                 idLibro = Integer.parseInt(request.getParameter("idLibro"));
                 
                 try {
-                    mla.eliminar(conexion.getConexion(), idLibro);
+                    modeloLibrosDeAlumno.eliminar(conexion.getConexion(), idLibro);
                 } catch (SQLException ex) {
                     Logger.getLogger(
                         ControladorAlumno.class.getName()

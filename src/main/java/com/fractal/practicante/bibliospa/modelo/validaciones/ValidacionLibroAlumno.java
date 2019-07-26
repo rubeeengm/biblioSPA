@@ -15,7 +15,7 @@ public class ValidacionLibroAlumno {
      * @return devuelve true si sus datos son correctos
      */
     public boolean validarLibroAlumno(LibroDeAlumno objeto) {
-        int idUsuario = objeto.getId();
+        int idUsuario = objeto.getIdAlumno();
         int idLibro = objeto.getIdLibro();
         
         if (idUsuario < 1) {
