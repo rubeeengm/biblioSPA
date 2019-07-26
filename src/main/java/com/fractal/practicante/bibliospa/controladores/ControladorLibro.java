@@ -46,9 +46,15 @@ public class ControladorLibro extends HttpServlet {
                     String titulo = request.getParameter("titulo");
                     String autor = request.getParameter("autor");
                     String isbn = request.getParameter("isbn");
-                    int numPaginas = Integer.parseInt(
+                    int numPaginas = 0;
+                    try{
+                        numPaginas = Integer.parseInt(
                         request.getParameter("numPaginas")
                     );
+                    } catch (NumberFormatException s){
+                        numPaginas = 0;
+                    }
+                    
 
                     Libro objetoLibro = new Libro(
                         titulo, autor, numPaginas, isbn
@@ -57,18 +63,31 @@ public class ControladorLibro extends HttpServlet {
                     ValidacionLibro valLibro = new ValidacionLibro();
                     ModeloLibros modLibros = new ModeloLibros();
 
-                    if (valLibro.validacionTotal(objetoLibro)) {
-                        try {
-                            modLibros.insertar(
-                                conexion.getConexion(), objetoLibro
-                            );
-                        } catch (SQLException ex) {
-                            System.out.println("Error al insertar libro");
+                    if(valLibro.validarNulos(objetoLibro)){
+                        if(valLibro.validarVacios(objetoLibro)){
+                            if (valLibro.validacionTotal(objetoLibro)) {
+                                try {
+                                    if(!modLibros.insertar(
+                                    conexion.getConexion(), objetoLibro
+                                    )){
+                                        mensajeLibro = "db_error";                                        
+                                    } else {
+                                        mensajeLibro = "exito";
+                                    }                                    
+                                    
+                                } catch (SQLException ex) {
+                                    System.out.println("Error al insertar libro");
+                                }
+                                conexion.desconectar();
+                            } else {
+                                mensajeLibro = "datos_erroneos";
+                            }
+                        } else {
+                            mensajeLibro = "datos_vacios";
                         }
-                        conexion.desconectar();
                     } else {
-                        mensajeLibro = "Campos vacíos";
-                    }
+                        mensajeLibro = "datos_nulos";
+                    }                    
                     break;
 
                 default:

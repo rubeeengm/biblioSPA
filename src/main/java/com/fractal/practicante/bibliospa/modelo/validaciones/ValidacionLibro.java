@@ -45,11 +45,7 @@ public class ValidacionLibro extends Validacion<Libro> {
         int numPaginas = objeto.getNumPaginas();
         String isbn = objeto.getIsbn();
 
-        if (numPaginas < 1) {
-            System.out.println("Número de páginas inválido");
-
-            return false;
-        } else if (titulo == null || autor == null || isbn == null) {
+       if (titulo == null || autor == null || isbn == null) {
             System.out.println("Valor nulo");
 
             return false;
@@ -76,7 +72,7 @@ public class ValidacionLibro extends Validacion<Libro> {
 
             return false;
         } else if (titulo.equals("") || autor.equals("") || isbn.equals("")) {
-            System.out.println("Valor nulo");
+            System.out.println("Valor vacio");
 
             return false;
         } else {
